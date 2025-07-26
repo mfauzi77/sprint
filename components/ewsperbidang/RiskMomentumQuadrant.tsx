@@ -1,11 +1,14 @@
+
 import React from 'react';
 import { RegionPerformance } from '../../types';
 
 interface RiskMomentumQuadrantProps {
     regions: RegionPerformance[];
+    onRegionSelect?: (regionId: string) => void;
+    selectedRegionId?: string;
 }
 
-const RiskMomentumQuadrant: React.FC<RiskMomentumQuadrantProps> = ({ regions }) => {
+const RiskMomentumQuadrant: React.FC<RiskMomentumQuadrantProps> = ({ regions, onRegionSelect, selectedRegionId }) => {
     const width = 600;
     const height = 450;
     const padding = 60;
@@ -79,15 +82,23 @@ const RiskMomentumQuadrant: React.FC<RiskMomentumQuadrantProps> = ({ regions }) 
                     {regions.map(region => {
                         const q = getQuadrant(region.riskScore, region.trend);
                         const pointColor = q === 1 ? 'fill-red-500' : q === 2 ? 'fill-amber-500' : q === 3 ? 'fill-emerald-500' : 'fill-blue-500';
+                        const isSelected = onRegionSelect && selectedRegionId === region.id;
+
                         return (
-                            <g key={region.id} className="group" transform={`translate(${getX(region.riskScore)}, ${getY(region.trend)})`}>
-                                <circle r="6" className={`${pointColor} opacity-75 group-hover:opacity-100 transition-opacity`}>
+                            <g 
+                                key={region.id} 
+                                className={`group ${onRegionSelect ? 'cursor-pointer' : ''}`}
+                                transform={`translate(${getX(region.riskScore)}, ${getY(region.trend)})`}
+                                onClick={() => onRegionSelect && onRegionSelect(region.id)}
+                            >
+                                {isSelected && <circle r="11" className={pointColor} fill="none" stroke="currentColor" strokeWidth="2" strokeOpacity="0.4" />}
+                                <circle r={isSelected ? 8 : 6} className={`${pointColor} opacity-75 group-hover:opacity-100 transition-all`}>
                                     <title>{`${region.name} | Risiko: ${region.riskScore}, Tren: ${region.trend > 0 ? '+' : ''}${region.trend}`}</title>
                                 </circle>
                                 <text
                                     x="10"
                                     y="4"
-                                    className="text-xs fill-current text-slate-700 opacity-0 group-hover:opacity-100 transition-opacity font-medium pointer-events-none"
+                                    className={`text-xs fill-current text-slate-700 opacity-0 group-hover:opacity-100 transition-opacity font-medium pointer-events-none ${isSelected ? '!opacity-100' : ''}`}
                                 >
                                     {region.name}
                                 </text>

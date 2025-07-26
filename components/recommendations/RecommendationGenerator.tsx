@@ -22,8 +22,8 @@ const RecommendationGenerator: React.FC<RecommendationGeneratorProps> = ({ onGen
     return (
         <form onSubmit={handleSubmit} className="flex flex-col h-full">
             <div className="flex-grow">
-                <h2 className="text-xl font-bold text-slate-800">Generate Smart Recommendations</h2>
-                <p className="text-sm text-slate-500 mt-1">Use AI to create strategic intervention plans.</p>
+                <h2 className="text-xl font-bold text-slate-800">Hasilkan Rekomendasi SPRINT</h2>
+                <p className="text-sm text-slate-500 mt-1">Gunakan SPRINT AI untuk membuat rencana intervensi strategis.</p>
 
                 <div className="mt-6 space-y-4">
                     <div>

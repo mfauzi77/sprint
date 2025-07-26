@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { getAvailableRegions, getRegionDetails, nationalHistoricalRisk, allActiveAlerts } from '../services/mockData';
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { getAvailableRegions, getRegionDetails, nationalHistoricalRisk, allActiveAlerts, domainsData } from '../services/mockData';
 import { getRegionalAnalysisInsight } from '../services/geminiService';
-import { RegionDetailData, ActiveAlertData, InterventionPlan, InterventionPriority, InterventionStatus } from '../types';
+import { RegionDetailData, ActiveAlertData, InterventionPlan, InterventionPriority, InterventionStatus, Domain } from '../types';
 import RegionSummary from './dataperwilayah/RegionSummary';
 import DomainBreakdown from './dataperwilayah/DomainBreakdown';
-import RegionalTrendChart from './dataperwilayah/RegionalTrendChart';
 import ActiveAlerts from './dashboard/ActiveAlerts';
 import RecommendationModal from './dashboard/RecommendationModal';
 import RegionalAnalysisInsight from './dataperwilayah/RegionalAnalysisInsight';
+import RegionalProfileRadarChart from './dataperwilayah/RegionalProfileRadarChart';
+import RegionalForecastTrendChart, { ForecastTrendPoint } from './dataperwilayah/RegionalForecastTrendChart';
 
 interface DataPerWilayahProps {
     handleOpenInterventionModal: (initialData?: Partial<InterventionPlan>, navigate?: boolean) => void;
@@ -22,27 +24,29 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedAlert, setSelectedAlert] = useState<ActiveAlertData | null>(null);
 
-    // New state for regional analysis insight
-    const [regionalInsight, setRegionalInsight] = useState<string | null>(null);
-    const [isInsightLoading, setIsInsightLoading] = useState(true);
+    const [insight, setInsight] = useState<string | null>(null);
+    const [isInsightLoading, setIsInsightLoading] = useState(false);
     const [insightError, setInsightError] = useState<string | null>(null);
 
     useEffect(() => {
         const availableRegions = getAvailableRegions();
         setRegions(availableRegions);
         if (availableRegions.length > 0) {
-            setSelectedRegionId(availableRegions[0].id);
+            // Select a default region with some data for a better initial view, e.g., Jawa Barat
+            const defaultRegion = availableRegions.find(r => r.id === 'jawa-barat') || availableRegions[0];
+            setSelectedRegionId(defaultRegion.id);
         }
     }, []);
 
-    const fetchRegionalInsight = async (data: RegionDetailData) => {
+    const fetchInsight = async (data: RegionDetailData) => {
+        if (!data) return;
         setIsInsightLoading(true);
         setInsightError(null);
         try {
             const result = await getRegionalAnalysisInsight(data);
-            setRegionalInsight(result);
+            setInsight(result);
         } catch (err) {
-            setInsightError("Gagal memuat analisis AI untuk wilayah ini.");
+            setInsightError('Gagal memuat analisis AI.');
         } finally {
             setIsInsightLoading(false);
         }
@@ -52,10 +56,10 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
         if (selectedRegionId) {
             const data = getRegionDetails(selectedRegionId);
             setRegionData(data);
-            const alerts = allActiveAlerts.filter(alert => alert.region === data?.name);
-            setRegionalAlerts(alerts);
             if (data) {
-                fetchRegionalInsight(data);
+                const alerts = allActiveAlerts.filter(a => a.region === data.name);
+                setRegionalAlerts(alerts);
+                fetchInsight(data);
             }
         }
     }, [selectedRegionId]);
@@ -64,7 +68,7 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
         setSelectedAlert(alert);
         setIsModalOpen(true);
     };
-    
+
     const handleCreatePlanFromAlert = (alert: ActiveAlertData) => {
         const initialData: Partial<InterventionPlan> = {
             title: `Rencana Intervensi untuk ${alert.title} di ${alert.region}`,
@@ -76,28 +80,80 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
             status: InterventionStatus.Planning
         };
         handleOpenInterventionModal(initialData, true);
-        setIsModalOpen(false);
     };
+    
+    const { regionalProfile, nationalProfile } = useMemo(() => {
+        const regional: { axis: Domain; value: number }[] = [];
+        const national: { axis: Domain; value: number }[] = [];
 
-    const handleRegenerateInsight = () => {
         if (regionData) {
-            fetchRegionalInsight(regionData);
+            (Object.keys(regionData.domains) as Domain[]).forEach(domainKey => {
+                regional.push({
+                    axis: domainKey,
+                    value: regionData.domains[domainKey].riskScore,
+                });
+                national.push({
+                    axis: domainKey,
+                    value: domainsData[domainKey].averageRisk,
+                });
+            });
         }
-    };
+        return { regionalProfile: regional, nationalProfile: national };
+    }, [regionData]);
+
+    const forecastTrendData = useMemo((): ForecastTrendPoint[] => {
+        if (!regionData) return [];
+
+        const regionHistory = regionData.historicalRisk;
+        const nationalHistory = nationalHistoricalRisk;
+
+        // Calculate simple trend (change from last month)
+        const regionalTrend = regionHistory.length > 1 ? regionHistory[regionHistory.length - 1].score - regionHistory[regionHistory.length - 2].score : 0;
+        const nationalTrend = nationalHistory.length > 1 ? nationalHistory[nationalHistory.length - 1].score - nationalHistory[nationalHistory.length - 2].score : 0;
+
+        const historicalData: ForecastTrendPoint[] = regionHistory.map((rh, index) => ({
+            month: rh.month,
+            regionalActual: rh.score,
+            regionalPredicted: rh.score,
+            nationalActual: nationalHistory[index]?.score || null,
+            nationalPredicted: nationalHistory[index]?.score || 0,
+        }));
+        
+        const lastRegionalPoint = regionHistory[regionHistory.length - 1];
+        const lastNationalPoint = nationalHistory[nationalHistory.length - 1];
+        
+        const predictionMonths = ['Jul', 'Agu', 'Sep'];
+        const predictedData: ForecastTrendPoint[] = predictionMonths.map((month, i) => {
+            const nextRegionalScore = Math.max(0, Math.min(100, lastRegionalPoint.score + (regionalTrend * (i + 1))));
+            const nextNationalScore = Math.max(0, Math.min(100, lastNationalPoint.score + (nationalTrend * (i + 1))));
+
+            return {
+                month: month,
+                regionalActual: null,
+                regionalPredicted: parseFloat(nextRegionalScore.toFixed(1)),
+                nationalActual: null,
+                nationalPredicted: parseFloat(nextNationalScore.toFixed(1)),
+            };
+        });
+
+        return [...historicalData, ...predictedData];
+    }, [regionData]);
+
 
     return (
         <div className="space-y-6">
             <div className="bg-white p-4 rounded-lg shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center">
-                <div>
-                    <h2 className="text-xl font-bold text-slate-800">Analisis Detail per Wilayah</h2>
-                    <p className="text-sm text-slate-500">Pilih wilayah untuk melihat rincian data dan tren risiko.</p>
+                 <div>
+                    <h2 className="text-xl font-bold text-slate-800">Analisis Mendalam per Wilayah</h2>
+                    <p className="text-sm text-slate-500 mt-1">Pilih wilayah dari daftar untuk melihat detail profil risikonya.</p>
                 </div>
-                <div className="mt-4 sm:mt-0 w-full sm:w-auto">
+                <div className="mt-4 sm:mt-0">
+                    <label htmlFor="region-select" className="sr-only">Pilih Wilayah</label>
                     <select
+                        id="region-select"
                         value={selectedRegionId}
                         onChange={(e) => setSelectedRegionId(e.target.value)}
-                        className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
-                        aria-label="Pilih Wilayah"
+                        className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:w-64 p-2.5"
                     >
                         {regions.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
                     </select>
@@ -107,41 +163,51 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
             {regionData ? (
                 <div className="space-y-6">
                     <RegionSummary data={regionData} />
-                    <DomainBreakdown domains={regionData.domains} />
-
-                    <RegionalAnalysisInsight 
-                        isLoading={isInsightLoading}
-                        insight={regionalInsight}
-                        error={insightError}
-                        onRegenerate={handleRegenerateInsight}
-                    />
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm">
-                           <RegionalTrendChart 
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div className="bg-white p-6 rounded-lg shadow-sm">
+                           <RegionalProfileRadarChart 
+                                regionName={regionData.name}
+                                regionalProfile={regionalProfile}
+                                nationalProfile={nationalProfile}
+                           />
+                        </div>
+                        <div className="bg-white p-6 rounded-lg shadow-sm">
+                            <RegionalForecastTrendChart 
                                 regionName={regionData.name} 
-                                regionHistory={regionData.historicalRisk}
-                                nationalHistory={nationalHistoricalRisk}
+                                data={forecastTrendData}
                             />
                         </div>
-                        <div className="lg:col-span-1">
-                            <ActiveAlerts data={regionalAlerts} onAnalyze={handleAnalyzeClick} onCreatePlan={() => handleOpenInterventionModal({}, true)} />
-                        </div>
                     </div>
+
+                    <DomainBreakdown domains={regionData.domains} />
+
+                    <RegionalAnalysisInsight
+                        isLoading={isInsightLoading}
+                        insight={insight}
+                        error={insightError}
+                        onRegenerate={() => fetchInsight(regionData)}
+                    />
+
+                    <ActiveAlerts 
+                        data={regionalAlerts} 
+                        onAnalyze={handleAnalyzeClick} 
+                        onCreatePlan={() => handleOpenInterventionModal(undefined, true)} 
+                    />
+
+                    {selectedAlert && (
+                         <RecommendationModal 
+                            isOpen={isModalOpen} 
+                            onClose={() => setIsModalOpen(false)}
+                            alert={selectedAlert}
+                            onCreatePlan={handleCreatePlanFromAlert}
+                         />
+                    )}
                 </div>
             ) : (
-                <div className="text-center py-12 bg-white rounded-lg shadow-sm">
-                    <p>Pilih wilayah untuk menampilkan data.</p>
+                <div className="text-center py-20 bg-white rounded-lg shadow-sm">
+                    <p className="text-slate-500">Memuat data wilayah...</p>
                 </div>
-            )}
-            
-            {selectedAlert && (
-                 <RecommendationModal 
-                    isOpen={isModalOpen} 
-                    onClose={() => setIsModalOpen(false)}
-                    alert={selectedAlert}
-                    onCreatePlan={handleCreatePlanFromAlert}
-                 />
             )}
         </div>
     );

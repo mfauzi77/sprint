@@ -1,17 +1,18 @@
 
+
 import React from 'react';
 import { NavItem, View, ResourceType } from './types';
-import { DashboardIcon, UsersIcon, ChartBarIcon, MapIcon, BellAlertIcon, LightBulbIcon, CircleStackIcon, BeakerIcon, BriefcaseIcon, DocumentChartBarIcon, FlagIcon, GlobeAltIcon, HeartIcon, ScaleIcon, CubeIcon, WrenchScrewdriverIcon } from './components/icons/Icons';
+import { DashboardIcon, UsersIcon, ChartBarIcon, MapIcon, BellAlertIcon, LightBulbIcon, CircleStackIcon, BeakerIcon, BriefcaseIcon, DocumentChartBarIcon, FlagIcon, GlobeAltIcon, ScaleIcon, CubeIcon, WrenchScrewdriverIcon, HomeIcon } from './components/icons/Icons';
 
 export const NAVIGATION_ITEMS: NavItem[] = [
+    { id: View.LandingPage, label: 'Landing Page', icon: <HomeIcon /> },
     { id: View.Dashboard, label: 'Dashboard', icon: <DashboardIcon /> },
     { id: View.Forecasting, label: 'Forecasting & Prediction', icon: <ChartBarIcon /> },
     { id: View.DataPerWilayah, label: 'Data per Wilayah', icon: <MapIcon /> },
-    { id: View.EWSPerBidang, label: 'EWS per Bidang', icon: <BellAlertIcon /> },
-    { id: View.SmartRecommendations, label: 'Smart Recommendations', icon: <LightBulbIcon /> },
+    { id: View.EWSPerBidang, label: 'Analisis per Bidang', icon: <BellAlertIcon /> },
+    { id: View.SmartRecommendations, label: 'Rekomendasi SPRINT', icon: <LightBulbIcon /> },
     { id: View.Intervensi, label: 'Manajemen Intervensi', icon: <BeakerIcon /> },
     { id: View.DataProcessing, label: 'Data Processing', icon: <CircleStackIcon /> },
-    { id: View.ParentPortal, label: 'Portal Orang Tua', icon: <HeartIcon /> },
 ];
 
 export const SUB_NAVIGATION_ITEMS: NavItem[] = [

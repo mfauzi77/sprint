@@ -1,6 +1,6 @@
 
 
-import { RiskAssessmentData, KeyIndicatorData, ActiveAlertData, RiskCategory, AlertLevel, ForecastDataPoint, RegionalForecastData, RegionDetailData, DomainData, DataSource, LogEntry, InterventionPlan, InterventionStatus, InterventionPriority, RegionalRiskScore, DomainFilter, ParentDashboardData, ResourceData, Domain, RegionPerformance, DomainIndicatorData, DomainMetric } from '../types';
+import { RiskAssessmentData, KeyIndicatorData, ActiveAlertData, RiskCategory, AlertLevel, ForecastDataPoint, RegionalForecastData, RegionDetailData, DomainData, DataSource, LogEntry, InterventionPlan, InterventionStatus, InterventionPriority, RegionalRiskScore, DomainFilter, ResourceData, Domain, RegionPerformance, DomainIndicatorData, DomainMetric, ParentData } from '../types';
 
 export const riskAssessmentData: RiskAssessmentData[] = [
     { category: RiskCategory.Complete, count: 367, color: 'bg-emerald-500' },
@@ -617,36 +617,6 @@ export const mockInterventionPlans: InterventionPlan[] = [
 
 export const regionalRiskScores: RegionalRiskScore[] = Object.values(regionsDetails).map(r => ({ name: r.name, score: r.overallRisk }));
 
-// --- Mock Data for Parent Dashboard ---
-export const mockParentData: ParentDashboardData = {
-    childProfile: {
-        name: 'Budi Hartono',
-        avatarUrl: 'https://picsum.photos/id/1005/200/200',
-        age: '2 tahun 1 bulan',
-        lastWeight: 12.7,
-        lastHeight: 89
-    },
-    upcomingEvents: [
-        { id: 'ev1', title: 'Imunisasi DPT-HB-Hib Lanjutan', dueDate: '2024-08-15', type: 'immunization' },
-        { id: 'ev2', title: 'Penimbangan & Pengukuran Posyandu', dueDate: '2024-8-20', type: 'posyandu' }
-    ],
-    growthHistory: [
-        { ageInMonths: 18, weight: 10.9, height: 82 },
-        { ageInMonths: 21, weight: 11.8, height: 85 },
-        { ageInMonths: 24, weight: 12.5, height: 88 },
-        { ageInMonths: 25, weight: 12.7, height: 89 },
-    ],
-    stimulationChecklist: [
-        { id: 'stim1', text: 'Berjalan tanpa berpegangan', completed: true, ageGroup: '18-24 Bulan', category: 'Motorik Kasar' },
-        { id: 'stim2', text: 'Menyebut 3-6 kata dengan arti', completed: true, ageGroup: '18-24 Bulan', category: 'Bahasa' },
-        { id: 'stim3', text: 'Mencoret-coret pensil pada kertas', completed: true, ageGroup: '18-24 Bulan', category: 'Motorik Halus' },
-        { id: 'stim4', text: 'Menendang bola', completed: false, ageGroup: '24-36 Bulan', category: 'Motorik Kasar' },
-        { id: 'stim5', text: 'Menyusun 4 buah kubus', completed: true, ageGroup: '24-36 Bulan', category: 'Motorik Halus' },
-        { id: 'stim6', text: 'Menunjuk bagian tubuh', completed: false, ageGroup: '24-36 Bulan', category: 'Bahasa' },
-        { id: 'stim7', text: 'Makan sendiri tanpa banyak tumpah', completed: false, ageGroup: '24-36 Bulan', category: 'Sosial & Emosional' },
-    ]
-};
-
 // --- Mock Data for Resource Allocation ---
 export const mockResourceData: ResourceData = {
     sdm: [
@@ -667,4 +637,34 @@ export const mockResourceData: ResourceData = {
         { name: 'APE Kit', unit: 'kit', current: 30000, forecast: 36000, needed: 6000, color: 'text-amber-500' },
         { name: 'Buku KIA', unit: 'buku', current: 1000000, forecast: 1200000, needed: 200000, color: 'text-amber-500' },
     ]
+};
+
+// --- Mock Data for Parent Dashboard ---
+export const mockParentData: ParentData = {
+    childProfile: {
+        name: 'Budi',
+        age: '2 tahun 3 bulan',
+        avatarUrl: 'https://i.pravatar.cc/150?u=budi',
+        lastWeight: 12.5,
+        lastHeight: 88,
+    },
+    upcomingEvents: [
+        { id: 'ev1', title: 'Imunisasi DPT-HB-Hib 4', dueDate: '2024-08-15', type: 'immunization' },
+        { id: 'ev2', title: 'Penimbangan Posyandu Melati', dueDate: '2024-08-25', type: 'posyandu' },
+    ],
+    growthHistory: [
+        { ageInMonths: 18, weight: 10.9, height: 82 },
+        { ageInMonths: 21, weight: 11.8, height: 85 },
+        { ageInMonths: 24, weight: 12.1, height: 87 },
+        { ageInMonths: 27, weight: 12.5, height: 88 },
+    ],
+    stimulationChecklist: [
+        { id: 'stim1', text: 'Berlari tanpa sering jatuh', completed: true, ageGroup: '24-36 bulan', category: 'Motorik Kasar' },
+        { id: 'stim2', text: 'Menendang bola', completed: true, ageGroup: '24-36 bulan', category: 'Motorik Kasar' },
+        { id: 'stim3', text: 'Menyusun menara 4-6 balok', completed: true, ageGroup: '24-36 bulan', category: 'Motorik Halus' },
+        { id: 'stim4', text: 'Mencoret-coret dengan pensil/krayon', completed: false, ageGroup: '24-36 bulan', category: 'Motorik Halus' },
+        { id: 'stim5', text: 'Menggunakan 2-3 kata dalam kalimat', completed: true, ageGroup: '24-36 bulan', category: 'Bahasa' },
+        { id: 'stim6', text: 'Menyebut nama sendiri', completed: false, ageGroup: '24-36 bulan', category: 'Bahasa' },
+        { id: 'stim7', text: 'Meniru pekerjaan rumah tangga', completed: true, ageGroup: '24-36 bulan', category: 'Sosial & Emosional' },
+    ],
 };

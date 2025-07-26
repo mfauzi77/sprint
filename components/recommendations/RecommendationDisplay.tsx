@@ -34,7 +34,7 @@ const RecommendationDisplay: React.FC<RecommendationDisplayProps> = ({ isLoading
         return (
             <div className="flex flex-col items-center justify-center h-full text-center text-slate-500">
                 <LightBulbIcon className="w-16 h-16 mb-4 text-slate-300" />
-                <h3 className="text-xl font-semibold text-slate-700">Your AI Strategy Partner</h3>
+                <h3 className="text-xl font-semibold text-slate-700">Partner Strategi AI SPRINT Anda</h3>
                 <p className="mt-1 max-w-md">Select your criteria on the left and click "Generate" to receive tailored intervention strategies.</p>
             </div>
         );

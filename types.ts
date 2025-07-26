@@ -3,16 +3,16 @@
 import React from 'react';
 
 export enum View {
+    LandingPage = "Landing Page",
     Dashboard = "Dashboard",
     Forecasting = "Forecasting & Prediction",
     DataPerWilayah = "Data per Wilayah",
-    EWSPerBidang = "EWS per Bidang",
-    SmartRecommendations = "Smart Recommendations",
+    EWSPerBidang = "Analisis per Bidang",
+    SmartRecommendations = "Rekomendasi SPRINT",
     DataProcessing = "Data Processing",
     Intervensi = "Manajemen Intervensi", // Updated Label
     ResourceAllocation = "Resource Allocation",
-    Reports = "Reports & Analytics",
-    ParentPortal = "Portal Orang Tua"
+    Reports = "Reports & Analytics"
 }
 
 export interface NavItem {
@@ -153,16 +153,6 @@ export interface DomainData {
     indicators: DomainIndicatorData[];
 }
 
-// --- Types for Smart Recommendations ---
-export type RiskLevelSelection = 'all' | 'high-critical' | 'medium' | 'low';
-
-export interface RecommendationParams {
-    domain: string;
-    region: string;
-    riskLevel: RiskLevelSelection;
-    customPrompt: string;
-}
-
 // --- Types for Data Processing ---
 export type DataSourceStatus = 'connected' | 'delayed' | 'error';
 export interface DataSource {
@@ -215,44 +205,16 @@ export interface InterventionPlan {
     relatedAlertId?: string;
 }
 
-// --- Types for Parent Dashboard ---
-export interface ChildProfile {
-    name: string;
-    avatarUrl: string;
-    age: string; // e.g., "2 tahun 3 bulan"
-    lastWeight: number | null;
-    lastHeight: number | null;
+// --- Types for Smart Recommendations ---
+export type RiskLevelSelection = 'high-critical' | 'medium' | 'low' | 'all';
+
+export interface RecommendationParams {
+    domain: string;
+    region: string;
+    riskLevel: RiskLevelSelection;
+    customPrompt: string;
 }
 
-export interface UpcomingEvent {
-    id: string;
-    title: string;
-    dueDate: string; // YYYY-MM-DD
-    type: 'immunization' | 'posyandu';
-}
-
-export interface GrowthRecord {
-    ageInMonths: number;
-    weight: number;
-    height: number;
-}
-
-export type StimulationCategory = 'Motorik Kasar' | 'Motorik Halus' | 'Bahasa' | 'Sosial & Emosional';
-
-export interface StimulationChecklistItem {
-    id: string;
-    text: string;
-    completed: boolean;
-    ageGroup: string; // e.g., "24-36 Bulan"
-    category: StimulationCategory;
-}
-
-export interface ParentDashboardData {
-    childProfile: ChildProfile;
-    upcomingEvents: UpcomingEvent[];
-    growthHistory: GrowthRecord[];
-    stimulationChecklist: StimulationChecklistItem[];
-}
 
 // --- Types for Resource Allocation ---
 export type ResourceType = 'SDM' | 'Anggaran' | 'Material';
@@ -276,4 +238,58 @@ export interface ScenarioParams {
     budgetChange: number; // percentage
     sdmFocus: 'Kesehatan' | 'Gizi' | 'Semua';
     regionFocus: 'High Risk' | 'All';
+}
+
+// --- Types for Reports ---
+export type ReportType = 'regional-deep-dive' | 'monthly-performance' | 'domain-comparison';
+export interface ReportParams {
+    type: ReportType;
+    regionId?: string;
+    month?: string;
+    year?: number;
+}
+export interface ReportData {
+    params: ReportParams;
+    generatedAt: string;
+    title: string;
+    regionData?: RegionDetailData;
+    aiSummary?: string;
+}
+
+
+// --- Types for Parent Dashboard ---
+export interface ChildProfile {
+    name: string;
+    age: string;
+    avatarUrl: string;
+    lastWeight: number | null;
+    lastHeight: number | null;
+}
+
+export interface UpcomingEvent {
+    id: string;
+    title: string;
+    dueDate: string; // YYYY-MM-DD
+    type: 'immunization' | 'posyandu';
+}
+
+export interface GrowthRecord {
+    ageInMonths: number;
+    weight: number; // in kg
+    height: number; // in cm
+}
+
+export interface StimulationChecklistItem {
+    id: string;
+    text: string;
+    completed: boolean;
+    ageGroup: string;
+    category: 'Motorik Kasar' | 'Motorik Halus' | 'Sosial & Emosional' | 'Bahasa';
+}
+
+export interface ParentData {
+    childProfile: ChildProfile;
+    upcomingEvents: UpcomingEvent[];
+    growthHistory: GrowthRecord[];
+    stimulationChecklist: StimulationChecklistItem[];
 }

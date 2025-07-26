@@ -45,7 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, se
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Seal_of_the_Coordinating_Ministry_of_Human_Developments_and_Culture_of_the_Republic_of_Indonesia.svg" alt="Logo Kemenko PMK" className="h-12 w-12 mr-3"/>
         <div className="text-gray-800">
             <p className="font-bold text-sm">KEMENKO PMK</p>
-            <p className="text-xs text-gray-500">SPRINT PAUD HI</p>
+            <p className="text-xs text-gray-500">SPRINT</p>
         </div>
       </div>
       <nav className="flex-1 flex flex-col justify-between">

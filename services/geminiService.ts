@@ -1,8 +1,7 @@
 
 
-
 import { GoogleGenAI } from "@google/genai";
-import { ActiveAlertData, KeyIndicatorData, RecommendationParams, RegionalForecastData, DomainFilter, RegionDetailData, ChildProfile, GrowthRecord, ResourceData, ScenarioParams } from "../types";
+import { ActiveAlertData, KeyIndicatorData, RegionalForecastData, DomainFilter, RegionDetailData, ResourceData, ScenarioParams, ChildProfile, GrowthRecord } from "../types";
 
 // This is a mock implementation. In a real application, you would use:
 // const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -113,67 +112,6 @@ export const getSmartRecommendations = async (alert: ActiveAlertData): Promise<s
     }, 1500); // Simulate network delay
   });
 };
-
-
-export const generateGeneralRecommendations = async (params: RecommendationParams): Promise<string> => {
-  // Build a detailed prompt based on user inputs
-  const prompt = `
-    You are a strategic advisor for the Indonesian Coordinating Ministry for Human Development and Culture (Kemenko PMK). Your task is to provide high-level, strategic recommendations for Early Childhood Development (PAUD HI).
-
-    Analyze the following situation and provide 3-5 actionable recommendations in well-structured markdown format. The recommendations must be contextual to Indonesia, considering cultural, geographical, and resource variations.
-
-    **Analysis Context:**
-    - **Domain of Focus:** ${params.domain}
-    - **Geographic Area:** ${params.region}
-    - **Priority Risk Level:** ${params.riskLevel}
-    ${params.customPrompt ? `- **Specific User Query:** "${params.customPrompt}"` : ''}
-
-    Generate a response starting with a title, followed by a brief 1-2 sentence summary of the situation, and then a numbered list of detailed recommendations. Each recommendation should include a "Why" section explaining the rationale and a "How" section with initial implementation steps.
-  `;
-
-  console.log("--- MOCK GEMINI PROMPT (GENERAL QUERY) ---");
-  console.log(prompt);
-  console.log("---------------------------------------");
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      let mockResponse = `### Rencana Strategis untuk Peningkatan ${params.domain} di ${params.region}\n\n`;
-      mockResponse += `Berikut adalah rekomendasi strategis yang berfokus pada penanganan risiko ${params.riskLevel} untuk bidang ${params.domain} di wilayah ${params.region}, dengan mempertimbangkan tantangan yang ada.\n\n`;
-
-      if (params.customPrompt.toLowerCase().includes("stunting")) {
-        mockResponse += `
-1.  **Intervensi Gizi Spesifik Berbasis Keluarga.**
-    *   **Why:** Stunting adalah masalah kronis yang akarnya ada di tingkat keluarga. Intervensi harus langsung menyasar ibu hamil dan balita.
-    *   **How:** Lakukan distribusi tablet tambah darah dan suplemen gizi mikro bagi ibu hamil. Adakan kelas memasak dan demo PM-TBA (Pemberian Makanan Tambahan Bayi dan Anak) menggunakan bahan pangan lokal yang terjangkau dan bergizi.
-
-2.  **Penguatan Konvergensi di Tingkat Desa.**
-    *   **Why:** Penanganan stunting memerlukan kerja sama lintas sektor (kesehatan, air bersih, ketahanan pangan, dll.). Desa adalah titik temu semua layanan ini.
-    *   **How:** Aktifkan kembali Rembuk Stunting di tingkat desa untuk memetakan masalah dan sumber daya. Pastikan data sasaran (ibu hamil KEK, balita gizi kurang) terintegrasi antara Posyandu, Bidan Desa, dan aparat desa.
-
-3.  **Edukasi Perubahan Perilaku Melalui Media Lokal.**
-    *   **Why:** Pengetahuan saja tidak cukup; perlu perubahan perilaku yang berkelanjutan. Media lokal (radio, grup WA) lebih efektif menjangkau masyarakat.
-    *   **How:** Buat sandiwara radio atau konten video pendek dalam bahasa daerah tentang 1000 Hari Pertama Kehidupan (HPK). Manfaatkan tokoh masyarakat dan agama sebagai agen perubahan.
-        `;
-      } else {
-         mockResponse += `
-1.  **Peningkatan Kapasitas Kader Posyandu.**
-    *   **Why:** Kader adalah garda terdepan layanan kesehatan dasar. Peningkatan kapasitas mereka akan berdampak langsung pada kualitas deteksi dini dan penyuluhan.
-    *   **How:** Selenggarakan pelatihan refreshmen berkala mengenai ${params.domain}. Bekali kader dengan alat bantu visual (flip chart) dan panduan saku digital yang bisa diakses melalui ponsel.
-
-2.  **Optimalisasi Dana Desa untuk PAUD HI.**
-    *   **Why:** Dana Desa merupakan sumber pembiayaan yang fleksibel dan dapat diarahkan untuk mendukung kebutuhan spesifik desa di bidang ${params.domain}.
-    *   **How:** Adakan sosialisasi dan workshop bagi pemerintah desa tentang cara mengalokasikan Dana Desa untuk program-program seperti penyediaan makanan tambahan, perbaikan sanitasi, atau pembelian APE (Alat Permainan Edukatif).
-
-3.  **Digitalisasi Pencatatan dan Pelaporan.**
-    *   **Why:** Data yang akurat dan real-time adalah kunci untuk intervensi yang tepat sasaran. Sistem manual rentan terhadap kesalahan dan keterlambatan.
-    *   **How:** Implementasikan aplikasi pencatatan sederhana (misalnya berbasis e-Posyandu) di smartphone untuk kader. Berikan pelatihan dan insentif data internet untuk mendorong adopsi.
-        `;
-      }
-      resolve(mockResponse);
-    }, 2000);
-  });
-};
-
 
 export const getForecastingInsight = async (
     domain: string,
@@ -287,45 +225,6 @@ export const getRegionalAnalysisInsight = async (
             
             resolve(insight);
         }, 1300);
-    });
-};
-
-
-export const getParentingInsight = async (
-    childProfile: ChildProfile,
-    latestGrowth: GrowthRecord | null
-): Promise<string> => {
-    // This is the prompt that would be sent to the Gemini API
-    const prompt = `
-      You are a friendly and encouraging pediatrician providing personalized advice to a parent on an app.
-      The advice should be short, simple, positive, and actionable.
-
-      Child's Data:
-      - Name: ${childProfile.name}
-      - Age: ${childProfile.age}
-      - Latest Weight: ${latestGrowth ? `${latestGrowth.weight} kg` : 'N/A'}
-      - Latest Height: ${latestGrowth ? `${latestGrowth.height} cm` : 'N/A'}
-
-      Task:
-      Provide a single, concise insight or tip for the parent.
-      - If growth data is normal, praise the parent and give a stimulation tip.
-      - If growth data seems off, gently suggest a visit to Posyandu without causing alarm.
-      - Keep it under 200 characters.
-      - The response must be in Bahasa Indonesia.
-    `;
-    console.log("--- MOCK GEMINI PROMPT (PARENTING INSIGHT) ---");
-    console.log(prompt);
-    console.log("----------------------------------------------");
-
-    // Mocking the API call and response
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            let insight = `Pertumbuhan ${childProfile.name} sudah bagus, Ayah/Bunda! Yuk, coba ajak si kecil menendang bola untuk melatih motorik kasarnya. Semangat terus!`;
-            if (latestGrowth && latestGrowth.weight < 11.5) { // Simple logic for demo
-                insight = `Jangan lupa datang ke Posyandu bulan ini ya, Ayah/Bunda, untuk memantau terus pertumbuhan si kecil bersama Bidan dan Kader.`;
-            }
-            resolve(insight);
-        }, 800);
     });
 };
 
@@ -450,5 +349,35 @@ Untuk memaksimalkan dampak positif sambil meminimalkan risiko, alokasikan sebagi
             `;
             resolve(mockResponse);
         }, 1800);
+    });
+};
+
+export const getParentingInsight = async (
+    childProfile: ChildProfile,
+    latestGrowth: GrowthRecord | null
+): Promise<string> => {
+    const prompt = `
+      You are a friendly and encouraging early childhood development expert.
+      Provide a short, personalized, and actionable tip for a parent based on their child's latest data.
+      The child's name is ${childProfile.name}, age ${childProfile.age}.
+      Latest measurement: Weight ${latestGrowth?.weight} kg, Height ${latestGrowth?.height} cm.
+      Keep it concise (2-3 sentences) and in Bahasa Indonesia.
+      Focus on a positive and encouraging tone.
+    `;
+
+    console.log("--- MOCK GEMINI PROMPT (PARENTING INSIGHT) ---");
+    console.log(prompt);
+    console.log("-----------------------------------------------");
+
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            let insight = `Halo Ayah/Bunda! Pertumbuhan ${childProfile.name} sudah bagus sekali! `;
+            if (latestGrowth && latestGrowth.weight > 12) {
+                insight += `Untuk mendukung aktivitasnya yang makin banyak, yuk ajak ${childProfile.name} bermain lempar tangkap bola untuk melatih koordinasi mata dan tangannya.`;
+            } else {
+                insight += `Terus berikan makanan bergizi seimbang ya. Coba kenalkan berbagai jenis sayuran dengan bentuk yang lucu agar ${childProfile.name} makin semangat makan!`;
+            }
+            resolve(insight);
+        }, 1200);
     });
 };

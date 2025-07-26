@@ -60,7 +60,7 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({ isOpen, onClo
                 </div>
                 <div className="ml-4">
                     <h3 className="text-lg leading-6 font-bold text-gray-900" id="modal-title">
-                        Smart Intervention Recommendations
+                        Rekomendasi Intervensi SPRINT
                     </h3>
                      <p className="text-sm text-gray-500">{alert.title} - {alert.region}</p>
                 </div>
