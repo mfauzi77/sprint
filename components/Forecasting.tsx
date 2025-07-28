@@ -18,7 +18,7 @@ const Forecasting: React.FC = () => {
     const [isInsightLoading, setIsInsightLoading] = useState(true);
     const [insightError, setInsightError] = useState<string | null>(null);
 
-    const domains: Domain[] = ['Kesehatan', 'Gizi', 'Pengasuhan', 'Perlindungan', 'Kesejahteraan'];
+    const domains: Domain[] = ['Kesehatan', 'Gizi', 'Pengasuhan', 'Perlindungan', 'Kesejahteraan', 'Lingkungan'];
     const horizons = ['3 Bulan', '6 Bulan'];
 
     const getRiskLevel = (score: number): 'Kritis' | 'Tinggi' | 'Sedang' | 'Rendah' => {

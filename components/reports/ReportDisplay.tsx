@@ -1,17 +1,159 @@
 import React from 'react';
-import { ReportData } from '../../types';
-import { DocumentChartBarIcon, DocumentArrowDownIcon, CalendarIcon } from '../icons/Icons';
+import { DomainComparisonData, MonthlySummaryData, RegionPerformance, ReportData } from '../../types';
+import { DocumentChartBarIcon, DocumentArrowDownIcon, CalendarIcon, ChevronUpIcon, ChevronDownIcon, MinusIcon, TrendingUpIcon, TrendingDownIcon, TrophyIcon, ExclamationTriangleIcon } from '../icons/Icons';
 import RegionSummary from '../dataperwilayah/RegionSummary';
 import DomainBreakdown from '../dataperwilayah/DomainBreakdown';
 import RegionalAnalysisInsight from '../dataperwilayah/RegionalAnalysisInsight';
 import RegionalProfileRadarChart from '../dataperwilayah/RegionalProfileRadarChart';
 import { domainsData } from '../../services/mockData';
+import { DOMAIN_ITEMS } from '../../constants';
 
 interface ReportDisplayProps {
     reportData: ReportData | null;
     isLoading: boolean;
     error: string | null;
 }
+
+const MonthlyPerformanceContent: React.FC<{ data: MonthlySummaryData }> = ({ data }) => {
+    const TrendIndicator: React.FC<{ change: number; type: 'increase' | 'decrease' | 'stable' }> = ({ change, type }) => {
+        if (type === 'stable' || change === 0) {
+            return (<div className="flex items-center text-xs font-bold text-slate-500"><MinusIcon /><span className="ml-1">Stabil</span></div>);
+        }
+        const isPositiveChange = change > 0;
+        const isGood = (type === 'increase' && isPositiveChange) || (type === 'decrease' && !isPositiveChange);
+        const color = isGood ? 'text-emerald-500' : 'text-red-500';
+        const icon = isPositiveChange ? <ChevronUpIcon /> : <ChevronDownIcon />;
+        return (<div className={`flex items-center text-xs font-bold ${color}`}>{icon}<span className="ml-1">{Math.abs(change)}%</span></div>);
+    };
+
+    const MoverList: React.FC<{ title: string, regions: RegionPerformance[], color: string }> = ({ title, regions, color }) => (
+        <div>
+            <h3 className={`text-base font-bold text-slate-800 mb-2`}>{title}</h3>
+            <ul className="space-y-2">
+                {regions.map(region => (
+                    <li key={region.id} className="flex justify-between items-center p-2 bg-slate-50 rounded-md">
+                        <span className="text-sm font-semibold">{region.name}</span>
+                        <div className={`flex items-center font-bold text-sm ${color}`}>
+                            {region.trend >= 0 ? <TrendingUpIcon className="w-4 h-4 mr-1" /> : <TrendingDownIcon className="w-4 h-4 mr-1" />}
+                            {region.trend > 0 ? '+' : ''}{region.trend.toFixed(1)}
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+
+    return (
+        <div className="space-y-10">
+            <section>
+                <h2 className="text-lg font-bold text-slate-800 border-b pb-2 mb-4">Ringkasan Nasional</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div className="p-4 bg-slate-100 rounded-lg">
+                        <p className="text-sm text-slate-500">Skor Risiko Nasional</p>
+                        <p className="text-2xl font-bold text-indigo-600">{data.nationalRisk.score.toFixed(1)}</p>
+                    </div>
+                    <div className="p-4 bg-slate-100 rounded-lg">
+                        <p className="text-sm text-slate-500">Perubahan Bulanan</p>
+                        <p className={`text-2xl font-bold ${data.nationalRisk.change >= 0 ? 'text-red-500' : 'text-emerald-500'}`}>
+                            {data.nationalRisk.change > 0 ? '+' : ''}{data.nationalRisk.change.toFixed(1)}
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2 className="text-lg font-bold text-slate-800 border-b pb-2 mb-4">Indikator Kunci Nasional</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {data.keyIndicators.map(indicator => (
+                        <div key={indicator.label} className="p-4 bg-slate-50 rounded-lg">
+                            <p className="text-sm font-semibold text-slate-700 h-10">{indicator.label}</p>
+                            <p className="text-3xl font-bold text-indigo-600">{indicator.value}</p>
+                            <div className="mt-2"><TrendIndicator change={indicator.change} type={indicator.changeType} /></div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+            <section>
+                <h2 className="text-lg font-bold text-slate-800 border-b pb-2 mb-4">Pergerakan Risiko Regional</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <MoverList title="Wilayah Dengan Perbaikan Terbesar" regions={data.topImprovingRegions} color="text-emerald-500" />
+                    <MoverList title="Wilayah Dengan Pemburukan Terbesar" regions={data.topWorseningRegions} color="text-red-500" />
+                </div>
+            </section>
+        </div>
+    );
+};
+
+const DomainComparisonContent: React.FC<{ data: DomainComparisonData }> = ({ data }) => {
+    
+    const getRiskColor = (score: number) => {
+        if (score > 75) return 'bg-red-500';
+        if (score > 60) return 'bg-orange-500';
+        if (score > 40) return 'bg-yellow-500';
+        return 'bg-emerald-500';
+    };
+
+    return (
+        <section>
+             <h2 className="text-lg font-bold text-slate-800 border-b pb-2 mb-4">Tabel Perbandingan Antar Domain</h2>
+             <div className="overflow-x-auto not-prose">
+                 <table className="w-full text-sm text-left text-slate-500">
+                    <thead className="text-xs text-slate-700 uppercase bg-slate-100">
+                        <tr>
+                            <th scope="col" className="px-6 py-3 rounded-l-lg">Domain Layanan</th>
+                            <th scope="col" className="px-6 py-3 text-center">Rata-rata Risiko</th>
+                            <th scope="col" className="px-6 py-3 text-center">Wilayah Kritis</th>
+                            <th scope="col" className="px-6 py-3">Performa Terbaik</th>
+                            <th scope="col" className="px-6 py-3 rounded-r-lg">Performa Terendah</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.stats.map(stat => {
+                            const domainInfo = DOMAIN_ITEMS.find(d => d.id === stat.domain);
+                            return(
+                                <tr key={stat.domain} className="bg-white border-b hover:bg-slate-50">
+                                    <th scope="row" className="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">
+                                        <div className="flex items-center">
+                                            {domainInfo?.icon}
+                                            <span className="ml-2">{stat.domain}</span>
+                                        </div>
+                                    </th>
+                                    <td className="px-6 py-4 text-center">
+                                        <div className="flex flex-col items-center">
+                                            <span className="font-bold text-lg">{stat.averageRisk.toFixed(1)}</span>
+                                            <div className="w-20 bg-slate-200 rounded-full h-2 mt-1">
+                                                <div className={`h-2 rounded-full ${getRiskColor(stat.averageRisk)}`} style={{width: `${stat.averageRisk}%`}}></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                     <td className="px-6 py-4 text-center font-bold text-lg text-red-600">{stat.criticalRegionsCount}</td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center text-xs">
+                                            <TrophyIcon className="w-4 h-4 mr-2 text-amber-500 flex-shrink-0" />
+                                            <div className="truncate">
+                                                <span className="font-semibold">{stat.bestPerformer.name}</span>
+                                                <span className="text-slate-500"> ({stat.bestPerformer.riskScore})</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center text-xs">
+                                            <ExclamationTriangleIcon className="w-4 h-4 mr-2 text-red-500 flex-shrink-0" />
+                                            <div className="truncate">
+                                                <span className="font-semibold">{stat.worstPerformer.name}</span>
+                                                <span className="text-slate-500"> ({stat.worstPerformer.riskScore})</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                 </table>
+             </div>
+        </section>
+    )
+}
+
 
 const ReportDisplay: React.FC<ReportDisplayProps> = ({ reportData, isLoading, error }) => {
 
@@ -48,7 +190,7 @@ const ReportDisplay: React.FC<ReportDisplayProps> = ({ reportData, isLoading, er
         );
     }
 
-    const { params, title, generatedAt, regionData, aiSummary } = reportData;
+    const { params, title, generatedAt, regionData, monthlySummary, domainComparisonData, aiSummary } = reportData;
 
     const { regionalProfile, nationalProfile } = React.useMemo(() => {
         if (!regionData) return { regionalProfile: [], nationalProfile: [] };
@@ -80,11 +222,27 @@ const ReportDisplay: React.FC<ReportDisplayProps> = ({ reportData, isLoading, er
 
             {/* Report Body */}
             <div className="mt-8 space-y-10">
+                {/* AI Summary is always on top */}
+                {aiSummary && (
+                    <section>
+                        <div className="not-prose">
+                            <RegionalAnalysisInsight 
+                                insight={aiSummary}
+                                isLoading={false}
+                                error={null}
+                                onRegenerate={() => alert("Fungsi regenerate belum diimplementasikan di sini.")}
+                            />
+                        </div>
+                    </section>
+                )}
+                
                 {params.type === 'regional-deep-dive' && regionData && (
                     <>
                         <section>
                             <h2 className="text-lg font-bold text-slate-800 border-b pb-2 mb-4">Ringkasan Wilayah</h2>
-                            <RegionSummary data={regionData} />
+                            <div className="not-prose">
+                                <RegionSummary data={regionData} />
+                            </div>
                         </section>
 
                         <section>
@@ -97,19 +255,7 @@ const ReportDisplay: React.FC<ReportDisplayProps> = ({ reportData, isLoading, er
                                 />
                             </div>
                         </section>
-
-                        <section>
-                             <h2 className="text-lg font-bold text-slate-800 border-b pb-2 mb-4">Analisis AI & Insight</h2>
-                             <div className="not-prose">
-                                <RegionalAnalysisInsight 
-                                    insight={aiSummary || null}
-                                    isLoading={false}
-                                    error={null}
-                                    onRegenerate={() => alert("Fungsi regenerate belum diimplementasikan di sini.")}
-                                />
-                             </div>
-                        </section>
-
+                        
                         <section>
                             <h2 className="text-lg font-bold text-slate-800 border-b pb-2 mb-4">Rincian per Bidang Layanan</h2>
                              <div className="not-prose">
@@ -117,6 +263,18 @@ const ReportDisplay: React.FC<ReportDisplayProps> = ({ reportData, isLoading, er
                              </div>
                         </section>
                     </>
+                )}
+
+                {params.type === 'monthly-performance' && monthlySummary && (
+                    <div className="not-prose">
+                        <MonthlyPerformanceContent data={monthlySummary} />
+                    </div>
+                )}
+
+                {params.type === 'domain-comparison' && domainComparisonData && (
+                    <div className="not-prose">
+                        <DomainComparisonContent data={domainComparisonData} />
+                    </div>
                 )}
 
                 {/* Footer can be added here */}

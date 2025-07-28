@@ -13,14 +13,18 @@ export const keyIndicatorsByDomain: Record<DomainFilter, KeyIndicatorData[]> = {
     'Semua': [
         { value: '78.5%', label: 'Cakupan Imunisasi Dasar', change: 2.3, changeType: 'increase', domain: 'Semua' },
         { value: '21.6%', label: 'Prevalensi Stunting', change: -1.2, changeType: 'decrease', domain: 'Semua' },
-        { value: '85.2%', label: 'Partisipasi PAUD', change: 1.8, changeType: 'increase', domain: 'Semua' },
-        { value: '89.7%', label: 'Kepemilikan Akta Lahir', change: 1.1, changeType: 'increase', domain: 'Semua'},
+        { value: '72.3', label: 'Indeks Pembangunan Manusia (IPM)', change: 0.2, changeType: 'increase', domain: 'Kesejahteraan' },
+        { value: '90.3%', label: 'Pemeriksaan Antenatal (K4)', change: 1.5, changeType: 'increase', domain: 'Semua' },
     ],
     'Kesehatan': [
         { value: '78.5%', label: 'Cakupan Imunisasi Dasar', change: 2.3, changeType: 'increase', domain: 'Kesehatan' },
         { value: '91.0%', label: 'Persalinan di Faskes', change: 0.5, changeType: 'increase', domain: 'Kesehatan' },
         { value: '12.4%', label: 'Prevalensi Diare', change: -0.8, changeType: 'decrease', domain: 'Kesehatan' },
         { value: '21/1000', label: 'Angka Kematian Bayi (AKB)', change: -0.5, changeType: 'decrease', domain: 'Kesehatan'},
+        { value: '90.3%', label: 'Pemeriksaan Antenatal (K4)', change: 1.5, changeType: 'increase', domain: 'Kesehatan'},
+        { value: '82.1%', label: 'Kunjungan Pasca Melahirkan', change: 2.1, changeType: 'increase', domain: 'Kesehatan'},
+        { value: '89.2%', label: 'Perawatan Anak Pneumonia', change: 0.9, changeType: 'increase', domain: 'Kesehatan'},
+        { value: '95.5%', label: 'Penanganan Ibu Hamil HIV+', change: 0.5, changeType: 'increase', domain: 'Kesehatan'},
     ],
     'Gizi': [
         { value: '21.6%', label: 'Prevalensi Stunting', change: -1.2, changeType: 'decrease', domain: 'Gizi' },
@@ -41,17 +45,23 @@ export const keyIndicatorsByDomain: Record<DomainFilter, KeyIndicatorData[]> = {
         { value: '4.2%', label: 'Prevalensi Pekerja Anak', change: -0.1, changeType: 'decrease', domain: 'Perlindungan'},
     ],
     'Kesejahteraan': [
+        { value: '72.3', label: 'Indeks Pembangunan Manusia (IPM)', change: 0.2, changeType: 'increase', domain: 'Kesejahteraan' },
         { value: '82.5%', label: 'Akses Air Bersih Layak', change: 2.1, changeType: 'increase', domain: 'Kesejahteraan' },
         { value: '79.8%', label: 'Akses Sanitasi Layak', change: 2.5, changeType: 'increase', domain: 'Kesejahteraan' },
         { value: '95.3%', label: 'Keluarga dengan Jaminan Sosial', change: 3.0, changeType: 'increase', domain: 'Kesejahteraan' },
-        { value: '97.2%', label: 'Rasio Elektrifikasi Rumah Tangga', change: 0.8, changeType: 'increase', domain: 'Kesejahteraan'},
+    ],
+    'Lingkungan': [
+        { value: 'Sedang', label: 'Indeks Risiko Bencana (BNPB)', change: 0.5, changeType: 'increase', domain: 'Lingkungan' },
+        { value: '82 AQI', label: 'Kualitas Udara Rata-rata (BMKG)', change: 3, changeType: 'increase', domain: 'Lingkungan' },
+        { value: '4.2 M', label: 'Gempa Terkini Dirasakan (BMKG)', change: 0, changeType: 'stable', domain: 'Lingkungan' },
+        { value: 'Siaga', label: 'Peringatan Dini Cuaca (BMKG)', change: 0, changeType: 'stable', domain: 'Lingkungan' },
     ]
 };
 
 
 export const allActiveAlerts: ActiveAlertData[] = [
     { id: 'alert-1', level: AlertLevel.High, title: 'Cakupan Imunisasi Rendah', region: 'Papua', domain: 'Kesehatan', riskScore: 85, target: 90 },
-    { id: 'alert-2', level: AlertLevel.Medium, title: 'ISPA Meningkat', region: 'Jawa Barat', domain: 'Kesehatan', riskScore: 62, trend: 15 },
+    { id: 'alert-17', level: AlertLevel.High, title: 'Wabah DBD', region: 'Jawa Barat', domain: 'Kesehatan', riskScore: 76, trend: 20 },
     { id: 'alert-3', level: AlertLevel.Critical, title: 'Lonjakan Stunting', region: 'Nusa Tenggara Timur', domain: 'Gizi', riskScore: 91, trend: 5 },
     { id: 'alert-4', level: AlertLevel.High, title: 'Akses PAUD Terbatas', region: 'Sulawesi Barat', domain: 'Pengasuhan', riskScore: 72 },
     { id: 'alert-5', level: AlertLevel.Medium, title: 'Kekerasan Anak', region: 'Banten', domain: 'Perlindungan', riskScore: 68, trend: 8 },
@@ -64,6 +74,8 @@ export const allActiveAlerts: ActiveAlertData[] = [
     { id: 'alert-12', level: AlertLevel.Medium, title: 'Akses Air Bersih Kritis', region: 'Sulawesi Tengah', domain: 'Kesejahteraan', riskScore: 73 },
     { id: 'alert-13', level: AlertLevel.High, title: 'Pekerja Anak Sektor Informal', region: 'Kalimantan Barat', domain: 'Perlindungan', riskScore: 75, trend: 2 },
     { id: 'alert-14', level: AlertLevel.Medium, title: 'Kepadatan & Sanitasi Pemukiman', region: 'DKI Jakarta', domain: 'Kesejahteraan', riskScore: 69 },
+    { id: 'alert-15', level: AlertLevel.High, title: 'Potensi Banjir Rob', region: 'DKI Jakarta', domain: 'Lingkungan', riskScore: 75, target: 0, trend: 10 },
+    { id: 'alert-16', level: AlertLevel.Medium, title: 'Kekeringan Lahan Pertanian', region: 'Nusa Tenggara Timur', domain: 'Lingkungan', riskScore: 68, trend: 5 },
 ];
 
 export const forecastChartData: ForecastDataPoint[] = [
@@ -84,7 +96,7 @@ export const nationalHistoricalRisk = [
     { month: 'Apr', score: 67 }, { month: 'May', score: 66 }, { month: 'Jun', score: 68 }
 ];
 
-const regionsDetails: Record<string, RegionDetailData> = {
+export const regionsDetails: Record<string, RegionDetailData> = {
     'aceh': {
         id: 'aceh', name: 'Aceh', overallRisk: 68, population: 5274871, activeAlertsCount: 1,
         domains: {
@@ -92,7 +104,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 65, metrics: [{ label: 'Prevalensi Stunting', value: 30, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 8, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 62, metrics: [{ label: 'Akses PAUD', value: 65, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 60, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 68, metrics: [{ label: 'Akta Kelahiran', value: 85, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 180, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 78, metrics: [{ label: 'Akses Air Bersih', value: 70, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 65, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 78, metrics: [{ label: 'Akses Air Bersih', value: 70, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 65, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 72, metrics: [{ label: 'Risiko Tsunami (BNPB)', value: 8, unit: '/10', nationalAverage: 5, higherIsBetter: false }, { label: 'Aktivitas Seismik (BMKG)', value: 5.1, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 66 }, { month: 'Feb', score: 67 }, { month: 'Mar', score: 68 }, { month: 'Apr', score: 68 }, { month: 'May', score: 69 }, { month: 'Jun', score: 68 }]
     },
@@ -103,7 +116,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 50, metrics: [{ label: 'Prevalensi Stunting', value: 25, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 6, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 45, metrics: [{ label: 'Akses PAUD', value: 82, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 72, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 48, metrics: [{ label: 'Akta Kelahiran', value: 94, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 130, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 51, metrics: [{ label: 'Akses Air Bersih', value: 87, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 83, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 51, metrics: [{ label: 'Akses Air Bersih', value: 87, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 83, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 60, metrics: [{ label: 'Risiko Erupsi Gunung (BNPB)', value: 7, unit: '/10', nationalAverage: 4, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 65, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 52 }, { month: 'Feb', score: 51 }, { month: 'Mar', score: 50 }, { month: 'Apr', score: 49 }, { month: 'May', score: 49 }, { month: 'Jun', score: 49 }]
     },
@@ -114,7 +128,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 65, metrics: [{ label: 'Prevalensi Stunting', value: 25, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 7, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 60, metrics: [{ label: 'Akses PAUD', value: 72, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 66, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 62, metrics: [{ label: 'Akta Kelahiran', value: 91, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 140, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 68, metrics: [{ label: 'Akses Air Bersih', value: 78, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 74, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 68, metrics: [{ label: 'Akses Air Bersih', value: 78, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 74, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 85, metrics: [{ label: 'Risiko Karhutla (BNPB)', value: 9, unit: '/10', nationalAverage: 3, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 160, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 65 }, { month: 'Feb', score: 66 }, { month: 'Mar', score: 68 }, { month: 'Apr', score: 69 }, { month: 'May', score: 70 }, { month: 'Jun', score: 70 }]
     },
@@ -125,29 +140,32 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 68, metrics: [{ label: 'Prevalensi Stunting', value: 28, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 7, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 58, metrics: [{ label: 'Akses PAUD', value: 74, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 67, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 60, metrics: [{ label: 'Akta Kelahiran', value: 90, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 145, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 61, metrics: [{ label: 'Akses Air Bersih', value: 81, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 78, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 61, metrics: [{ label: 'Akses Air Bersih', value: 81, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 78, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 65, metrics: [{ label: 'Risiko Karhutla (BNPB)', value: 7, unit: '/10', nationalAverage: 3, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 80, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 64 }, { month: 'Feb', score: 63 }, { month: 'Mar', score: 63 }, { month: 'Apr', score: 62 }, { month: 'May', score: 62 }, { month: 'Jun', score: 62 }]
     },
     'dki-jakarta': {
         id: 'dki-jakarta', name: 'DKI Jakarta', overallRisk: 45, population: 10562088, activeAlertsCount: 1,
         domains: {
-            Kesehatan: { riskScore: 40, metrics: [{ label: 'Cakupan Imunisasi', value: 95, unit: '%', nationalAverage: 85, higherIsBetter: true }, { label: 'Prevalensi ISPA', value: 12, unit: '%', nationalAverage: 15, higherIsBetter: false }] },
+            Kesehatan: { riskScore: 40, metrics: [{ label: 'Cakupan Imunisasi', value: 95, unit: '%', nationalAverage: 85, higherIsBetter: true }, { label: 'Rasio Faskes per 10k', value: 8.5, unit: 'faskes', nationalAverage: 5, higherIsBetter: true }] },
             Gizi: { riskScore: 42, metrics: [{ label: 'Prevalensi Stunting', value: 18, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 4, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 48, metrics: [{ label: 'Akses PAUD', value: 88, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 75, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 52, metrics: [{ label: 'Akta Kelahiran', value: 98, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 180, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 69, metrics: [{ label: 'Akses Air Bersih', value: 92, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 85, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 69, metrics: [{ label: 'Indeks Pembangunan Manusia (IPM)', value: 81.1, unit: '', nationalAverage: 72.3, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 85, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 75, metrics: [{ label: 'Risiko Banjir (BNPB)', value: 8, unit: '/10', nationalAverage: 4, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 145, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 48 }, { month: 'Feb', score: 47 }, { month: 'Mar', score: 46 }, { month: 'Apr', score: 45 }, { month: 'May', score: 45 }, { month: 'Jun', score: 45 }]
     },
     'jawa-barat': {
         id: 'jawa-barat', name: 'Jawa Barat', overallRisk: 58, population: 48274162, activeAlertsCount: 1,
         domains: {
-            Kesehatan: { riskScore: 62, metrics: [{ label: 'Cakupan Imunisasi', value: 88, unit: '%', nationalAverage: 85, higherIsBetter: true }, { label: 'Prevalensi ISPA', value: 18, unit: '%', nationalAverage: 15, higherIsBetter: false }] },
+            Kesehatan: { riskScore: 62, metrics: [{ label: 'Cakupan Imunisasi', value: 88, unit: '%', nationalAverage: 85, higherIsBetter: true }, { label: 'Kasus DBD (per 100k)', value: 55, unit: 'kasus', nationalAverage: 45, higherIsBetter: false }] },
             Gizi: { riskScore: 55, metrics: [{ label: 'Prevalensi Stunting', value: 24, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 5, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 52, metrics: [{ label: 'Akses PAUD', value: 75, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 68, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 59, metrics: [{ label: 'Akta Kelahiran', value: 92, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 120, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 60, metrics: [{ label: 'Akses Air Bersih', value: 85, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 80, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 60, metrics: [{ label: 'Tingkat Pengangguran Terbuka', value: 8.1, unit: '%', nationalAverage: 7.5, higherIsBetter: false }, { label: 'Akses Sanitasi Layak', value: 80, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 68, metrics: [{ label: 'Risiko Banjir (BNPB)', value: 7, unit: '/10', nationalAverage: 4, higherIsBetter: false }, { label: 'Aktivitas Seismik (BMKG)', value: 4.8, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 60 }, { month: 'Feb', score: 59 }, { month: 'Mar', score: 61 }, { month: 'Apr', score: 58 }, { month: 'May', score: 57 }, { month: 'Jun', score: 58 }]
     },
@@ -158,7 +176,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 55, metrics: [{ label: 'Prevalensi Stunting', value: 22, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 6, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 48, metrics: [{ label: 'Akses PAUD', value: 80, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 70, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 51, metrics: [{ label: 'Akta Kelahiran', value: 95, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 130, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 53, metrics: [{ label: 'Akses Air Bersih', value: 88, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 82, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 53, metrics: [{ label: 'Akses Air Bersih', value: 88, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 82, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 55, metrics: [{ label: 'Risiko Banjir (BNPB)', value: 6, unit: '/10', nationalAverage: 4, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 70, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 55 }, { month: 'Feb', score: 54 }, { month: 'Mar', score: 53 }, { month: 'Apr', score: 52 }, { month: 'May', score: 52 }, { month: 'Jun', score: 52 }]
     },
@@ -169,7 +188,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 45, metrics: [{ label: 'Prevalensi Stunting', value: 17, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 3, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 38, metrics: [{ label: 'Akses PAUD', value: 90, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 80, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 43, metrics: [{ label: 'Akta Kelahiran', value: 99, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 100, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 46, metrics: [{ label: 'Akses Air Bersih', value: 95, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 92, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 46, metrics: [{ label: 'Akses Air Bersih', value: 95, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 92, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 58, metrics: [{ label: 'Aktivitas Seismik (BMKG)', value: 5.0, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }, { label: 'Risiko Erupsi Gunung (BNPB)', value: 6, unit: '/10', nationalAverage: 4, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 45 }, { month: 'Feb', score: 44 }, { month: 'Mar', score: 43 }, { month: 'Apr', score: 42 }, { month: 'May', score: 42 }, { month: 'Jun', score: 42 }]
     },
@@ -180,7 +200,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 65, metrics: [{ label: 'Prevalensi Stunting', value: 26, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 6, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 55, metrics: [{ label: 'Akses PAUD', value: 78, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 69, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 81, metrics: [{ label: 'Akta Kelahiran', value: 93, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Perkawinan Anak', value: 9, unit: '%', nationalAverage: 3.4, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 58, metrics: [{ label: 'Akses Air Bersih', value: 86, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 81, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 58, metrics: [{ label: 'Akses Air Bersih', value: 86, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 81, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 59, metrics: [{ label: 'Aktivitas Seismik (BMKG)', value: 4.9, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 85, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 62 }, { month: 'Feb', score: 61 }, { month: 'Mar', score: 61 }, { month: 'Apr', score: 60 }, { month: 'May', score: 60 }, { month: 'Jun', score: 60 }]
     },
@@ -191,7 +212,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 68, metrics: [{ label: 'Prevalensi Stunting', value: 27, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 8, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 63, metrics: [{ label: 'Akses PAUD', value: 70, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 64, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 70, metrics: [{ label: 'Akta Kelahiran', value: 88, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 170, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 64, metrics: [{ label: 'Akses Air Bersih', value: 79, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 76, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 64, metrics: [{ label: 'Akses Air Bersih', value: 79, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 76, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 66, metrics: [{ label: 'Risiko Industri (BNPB)', value: 7, unit: '/10', nationalAverage: 4, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 120, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 67 }, { month: 'Feb', score: 66 }, { month: 'Mar', score: 66 }, { month: 'Apr', score: 65 }, { month: 'May', score: 65 }, { month: 'Jun', score: 65 }]
     },
@@ -202,7 +224,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 50, metrics: [{ label: 'Prevalensi Stunting', value: 19, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 4, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 42, metrics: [{ label: 'Akses PAUD', value: 85, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 78, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 51, metrics: [{ label: 'Akta Kelahiran', value: 97, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 110, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 52, metrics: [{ label: 'Akses Air Bersih', value: 94, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 90, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 52, metrics: [{ label: 'Akses Air Bersih', value: 94, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 90, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 50, metrics: [{ label: 'Aktivitas Seismik (BMKG)', value: 4.2, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 45, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 51 }, { month: 'Feb', score: 50 }, { month: 'Mar', score: 49 }, { month: 'Apr', score: 48 }, { month: 'May', score: 48 }, { month: 'Jun', score: 48 }]
     },
@@ -213,7 +236,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 82, metrics: [{ label: 'Prevalensi Stunting', value: 33, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Anemia Ibu Hamil', value: 35, unit: '%', nationalAverage: 28, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 70, metrics: [{ label: 'Akses PAUD', value: 60, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 55, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 80, metrics: [{ label: 'Akta Kelahiran', value: 80, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Perkawinan Anak', value: 8, unit: '%', nationalAverage: 3.4, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 78, metrics: [{ label: 'Akses Air Bersih', value: 72, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 68, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 78, metrics: [{ label: 'Akses Air Bersih', value: 72, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 68, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 74, metrics: [{ label: 'Risiko Kekeringan (BNPB)', value: 8, unit: '/10', nationalAverage: 5, higherIsBetter: false }, { label: 'Aktivitas Seismik (BMKG)', value: 5.5, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 75 }, { month: 'Feb', score: 76 }, { month: 'Mar', score: 77 }, { month: 'Apr', score: 78 }, { month: 'May', score: 78 }, { month: 'Jun', score: 79 }]
     },
@@ -224,7 +248,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 91, metrics: [{ label: 'Prevalensi Stunting', value: 42, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 15, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 75, metrics: [{ label: 'Akses PAUD', value: 55, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 60, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 78, metrics: [{ label: 'Akta Kelahiran', value: 75, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 200, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 85, metrics: [{ label: 'Akses Air Bersih', value: 60, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 55, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 85, metrics: [{ label: 'Akses Air Bersih', value: 60, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 55, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 80, metrics: [{ label: 'Risiko Kekeringan (BNPB)', value: 9, unit: '/10', nationalAverage: 5, higherIsBetter: false }, { label: 'Aktivitas Seismik (BMKG)', value: 4.8, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 87 }, { month: 'Feb', score: 88 }, { month: 'Mar', score: 88 }, { month: 'Apr', score: 89 }, { month: 'May', score: 90 }, { month: 'Jun', score: 91 }]
     },
@@ -235,7 +260,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 70, metrics: [{ label: 'Prevalensi Stunting', value: 31, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 9, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 68, metrics: [{ label: 'Akses PAUD', value: 64, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 62, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 75, metrics: [{ label: 'Akta Kelahiran', value: 84, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Pekerja Anak', value: 5, unit: '%', nationalAverage: 4.2, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 73, metrics: [{ label: 'Akses Air Bersih', value: 71, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 67, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 73, metrics: [{ label: 'Akses Air Bersih', value: 71, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 67, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 78, metrics: [{ label: 'Risiko Karhutla (BNPB)', value: 8, unit: '/10', nationalAverage: 3, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 95, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 69 }, { month: 'Feb', score: 70 }, { month: 'Mar', score: 70 }, { month: 'Apr', score: 71 }, { month: 'May', score: 71 }, { month: 'Jun', score: 71 }]
     },
@@ -246,7 +272,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 58, metrics: [{ label: 'Prevalensi Stunting', value: 23, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 5, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 52, metrics: [{ label: 'Akses PAUD', value: 79, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 71, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 54, metrics: [{ label: 'Akta Kelahiran', value: 96, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 125, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 57, metrics: [{ label: 'Akses Air Bersih', value: 89, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 84, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 57, metrics: [{ label: 'Akses Air Bersih', value: 89, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 84, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 62, metrics: [{ label: 'Risiko Karhutla (BNPB)', value: 6, unit: '/10', nationalAverage: 3, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 75, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 58 }, { month: 'Feb', score: 57 }, { month: 'Mar', score: 56 }, { month: 'Apr', score: 55 }, { month: 'May', score: 55 }, { month: 'Jun', score: 55 }]
     },
@@ -257,7 +284,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 52, metrics: [{ label: 'Prevalensi Stunting', value: 21, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 4, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 46, metrics: [{ label: 'Akses PAUD', value: 81, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 73, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 49, metrics: [{ label: 'Akta Kelahiran', value: 93, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 115, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 51, metrics: [{ label: 'Akses Air Bersih', value: 86, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 80, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 51, metrics: [{ label: 'Akses Air Bersih', value: 86, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 80, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 55, metrics: [{ label: 'Risiko Karhutla (BNPB)', value: 4, unit: '/10', nationalAverage: 3, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 60, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 51 }, { month: 'Feb', score: 50 }, { month: 'Mar', score: 49 }, { month: 'Apr', score: 48 }, { month: 'May', score: 48 }, { month: 'Jun', score: 48 }]
     },
@@ -268,7 +296,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 75, metrics: [{ label: 'Prevalensi Stunting', value: 34, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 10, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 72, metrics: [{ label: 'Akses PAUD', value: 62, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 61, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 68, metrics: [{ label: 'Akta Kelahiran', value: 82, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 175, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 74, metrics: [{ label: 'Akses Air Bersih', value: 68, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 64, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 74, metrics: [{ label: 'Akses Air Bersih', value: 68, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 64, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 70, metrics: [{ label: 'Aktivitas Seismik (BMKG)', value: 6.0, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }, { label: 'Risiko Banjir (BNPB)', value: 6, unit: '/10', nationalAverage: 4, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 68 }, { month: 'Feb', score: 69 }, { month: 'Mar', score: 69 }, { month: 'Apr', score: 70 }, { month: 'May', score: 70 }, { month: 'Jun', score: 70 }]
     },
@@ -277,9 +306,10 @@ const regionsDetails: Record<string, RegionDetailData> = {
         domains: {
             Kesehatan: { riskScore: 68, metrics: [{ label: 'Cakupan Imunisasi', value: 82, unit: '%', nationalAverage: 85, higherIsBetter: true }, { label: 'Prevalensi ISPA', value: 19, unit: '%', nationalAverage: 15, higherIsBetter: false }] },
             Gizi: { riskScore: 70, metrics: [{ label: 'Prevalensi Stunting', value: 29, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 9, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
-            Pengasuhan: { riskScore: 60, metrics: [{ label: 'Akses PAUD', value: 68, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 64, unit: '', nationalAverage: 65, higherIsBetter: true }] },
+            Pengasuhan: { riskScore: 60, metrics: [{ label: 'Rasio Guru:Murid PAUD', value: '1:18', unit: '', nationalAverage: 0, higherIsBetter: false }, { label: 'Kualitas Pola Asuh', value: 64, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 63, metrics: [{ label: 'Akta Kelahiran', value: 88, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 160, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 65, metrics: [{ label: 'Akses Air Bersih', value: 75, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 70, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 65, metrics: [{ label: 'Indeks Pembangunan Manusia (IPM)', value: 71.8, unit: '', nationalAverage: 72.3, higherIsBetter: true }, { label: 'Tingkat Kemiskinan', value: 8.7, unit: '%', nationalAverage: 9.5, higherIsBetter: false }] },
+            Lingkungan: { riskScore: 62, metrics: [{ label: 'Aktivitas Seismik (BMKG)', value: 4.8, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 70, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 68 }, { month: 'Feb', score: 67 }, { month: 'Mar', score: 67 }, { month: 'Apr', score: 66 }, { month: 'May', score: 66 }, { month: 'Jun', score: 66 }]
     },
@@ -290,7 +320,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 76, metrics: [{ label: 'Prevalensi Stunting', value: 32, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 11, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 70, metrics: [{ label: 'Akses PAUD', value: 63, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 60, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 72, metrics: [{ label: 'Akta Kelahiran', value: 83, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 185, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 79, metrics: [{ label: 'Akses Air Bersih', value: 65, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 60, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 79, metrics: [{ label: 'Akses Air Bersih', value: 65, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 60, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 77, metrics: [{ label: 'Aktivitas Seismik (BMKG)', value: 6.2, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }, { label: 'Risiko Tsunami (BNPB)', value: 7, unit: '/10', nationalAverage: 5, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 72 }, { month: 'Feb', score: 73 }, { month: 'Mar', score: 73 }, { month: 'Apr', score: 74 }, { month: 'May', score: 74 }, { month: 'Jun', score: 74 }]
     },
@@ -301,7 +332,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 72, metrics: [{ label: 'Prevalensi Stunting', value: 33, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 9, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 65, metrics: [{ label: 'Akses PAUD', value: 67, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 63, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 66, metrics: [{ label: 'Akta Kelahiran', value: 87, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 155, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 68, metrics: [{ label: 'Akses Air Bersih', value: 74, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 71, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 68, metrics: [{ label: 'Akses Air Bersih', value: 74, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 71, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 64, metrics: [{ label: 'Risiko Banjir (BNPB)', value: 5, unit: '/10', nationalAverage: 4, higherIsBetter: false }, { label: 'Kualitas Udara (AQI)', value: 68, unit: '', nationalAverage: 55, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 70 }, { month: 'Feb', score: 69 }, { month: 'Mar', score: 69 }, { month: 'Apr', score: 68 }, { month: 'May', score: 68 }, { month: 'Jun', score: 68 }]
     },
@@ -312,7 +344,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 85, metrics: [{ label: 'Prevalensi Stunting', value: 36, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 13, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 74, metrics: [{ label: 'Akses PAUD', value: 60, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 58, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 76, metrics: [{ label: 'Akta Kelahiran', value: 81, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 195, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 80, metrics: [{ label: 'Akses Air Bersih', value: 68, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 62, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 80, metrics: [{ label: 'Akses Air Bersih', value: 68, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 62, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 82, metrics: [{ label: 'Aktivitas Seismik (BMKG)', value: 6.5, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }, { label: 'Risiko Tsunami (BNPB)', value: 8, unit: '/10', nationalAverage: 5, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 76 }, { month: 'Feb', score: 77 }, { month: 'Mar', score: 77 }, { month: 'Apr', score: 78 }, { month: 'May', score: 78 }, { month: 'Jun', score: 78 }]
     },
@@ -323,7 +356,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 80, metrics: [{ label: 'Prevalensi Stunting', value: 35, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 12, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 72, metrics: [{ label: 'Akses PAUD', value: 61, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 59, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 73, metrics: [{ label: 'Akta Kelahiran', value: 82, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 190, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 77, metrics: [{ label: 'Akses Air Bersih', value: 69, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 63, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 77, metrics: [{ label: 'Akses Air Bersih', value: 69, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 63, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 79, metrics: [{ label: 'Aktivitas Seismik (BMKG)', value: 6.1, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }, { label: 'Risiko Tsunami (BNPB)', value: 7, unit: '/10', nationalAverage: 5, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 73 }, { month: 'Feb', score: 74 }, { month: 'Mar', score: 74 }, { month: 'Apr', score: 75 }, { month: 'May', score: 75 }, { month: 'Jun', score: 75 }]
     },
@@ -334,7 +368,8 @@ const regionsDetails: Record<string, RegionDetailData> = {
             Gizi: { riskScore: 80, metrics: [{ label: 'Prevalensi Stunting', value: 35, unit: '%', nationalAverage: 28, higherIsBetter: false }, { label: 'Gizi Buruk', value: 12, unit: '%', nationalAverage: 7, higherIsBetter: false }] },
             Pengasuhan: { riskScore: 78, metrics: [{ label: 'Akses PAUD', value: 40, unit: '%', nationalAverage: 70, higherIsBetter: true }, { label: 'Kualitas Pola Asuh', value: 50, unit: '', nationalAverage: 65, higherIsBetter: true }] },
             Perlindungan: { riskScore: 75, metrics: [{ label: 'Akta Kelahiran', value: 70, unit: '%', nationalAverage: 90, higherIsBetter: true }, { label: 'Kasus Kekerasan', value: 250, unit: 'kasus', nationalAverage: 150, higherIsBetter: false }] },
-            Kesejahteraan: { riskScore: 88, metrics: [{ label: 'Akses Air Bersih', value: 50, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 45, unit: '%', nationalAverage: 75, higherIsBetter: true }] }
+            Kesejahteraan: { riskScore: 88, metrics: [{ label: 'Akses Air Bersih', value: 50, unit: '%', nationalAverage: 80, higherIsBetter: true }, { label: 'Sanitasi Layak', value: 45, unit: '%', nationalAverage: 75, higherIsBetter: true }] },
+            Lingkungan: { riskScore: 76, metrics: [{ label: 'Aktivitas Seismik (BMKG)', value: 5.8, unit: 'M', nationalAverage: 4.5, higherIsBetter: false }, { label: 'Risiko Banjir (BNPB)', value: 7, unit: '/10', nationalAverage: 4, higherIsBetter: false }]}
         },
         historicalRisk: [ { month: 'Jan', score: 78 }, { month: 'Feb', score: 79 }, { month: 'Mar', score: 80 }, { month: 'Apr', score: 81 }, { month: 'May', score: 82 }, { month: 'Jun', score: 82 }]
     },
@@ -371,7 +406,8 @@ const generateRegionalForecastData = (): RegionalForecastData[] => {
                 'Gizi': 8,
                 'Pengasuhan': 4,
                 'Perlindungan': 3,
-                'Kesejahteraan': 5
+                'Kesejahteraan': 5,
+                'Lingkungan': 7
             };
 
             // Base trend on current risk (higher risk tends to be more volatile)
@@ -438,28 +474,33 @@ const generateDomainData = (domain: Domain): DomainData => {
     });
 
     indicatorLabels.forEach(label => {
-        const performers: { name: string; value: number }[] = [];
+        const performers: { name: string; value: number | string }[] = [];
         let nationalAverage = 0;
         let unit = '';
         let higherIsBetter = true;
 
         Object.values(regionsDetails).forEach(region => {
             const metric = region.domains[domain].metrics.find(m => m.label === label);
-            if (metric && typeof metric.value === 'number') {
-                performers.push({ name: region.name, value: metric.value });
+            if (metric) { // Check if metric exists
+                 if (typeof metric.value === 'number') {
+                    performers.push({ name: region.name, value: metric.value });
+                } else {
+                    performers.push({ name: region.name, value: metric.value });
+                }
                 nationalAverage = metric.nationalAverage;
                 unit = metric.unit;
                 higherIsBetter = metric.higherIsBetter;
             }
         });
 
-        if (performers.length > 0) {
-            performers.sort((a, b) => {
+        if (performers.length > 0 && typeof performers[0].value === 'number') {
+            const numericPerformers = performers as { name: string; value: number }[];
+            numericPerformers.sort((a, b) => {
                 return higherIsBetter ? b.value - a.value : a.value - b.value;
             });
 
-            const best = performers[0];
-            const worst = performers[performers.length - 1];
+            const best = numericPerformers[0];
+            const worst = numericPerformers[numericPerformers.length - 1];
 
             indicators.push({
                 indicatorName: label,
@@ -487,6 +528,7 @@ export const domainsData: Record<string, DomainData> = {
     'Pengasuhan': generateDomainData('Pengasuhan'),
     'Perlindungan': generateDomainData('Perlindungan'),
     'Kesejahteraan': generateDomainData('Kesejahteraan'),
+    'Lingkungan': generateDomainData('Lingkungan'),
 };
 
 
@@ -497,21 +539,24 @@ export const getDomainData = (domainId: string): DomainData | null => {
 
 // --- Mock Data for Data Processing ---
 export const dataSources: DataSource[] = [
-    { id: 'kemenkes-imunisasi', name: 'Kemenkes - Imunisasi API', status: 'connected', lastSync: '5 minutes ago' },
-    { id: 'kemenkes-stunting', name: 'Kemenkes - Data Stunting', status: 'connected', lastSync: '15 minutes ago' },
-    { id: 'bps-demografi', name: 'BPS - Data Demografi', status: 'connected', lastSync: '6 hours ago' },
-    { id: 'kemendikbud-paud', name: 'Kemendikbud - Akses PAUD', status: 'delayed', lastSync: '2 days ago' },
-    { id: 'kemensos-pkh', name: 'Kemensos - Data PKH', status: 'error', lastSync: '1 day ago' },
-    { id: 'internal-survey', name: 'Internal - PAUD Survey', status: 'connected', lastSync: '1 hour ago' },
+    { id: 'kemenkes-satusehat', name: 'Kemenkes - SatuSehat Platform', status: 'connected', lastSync: '30 minutes ago' },
+    { id: 'kemdikbud-dapodik', name: 'Kemendikbud - Dapodik', status: 'delayed', lastSync: '1 day ago' },
+    { id: 'bps-sosial', name: 'BPS - Sensus & Survei Sosial', status: 'connected', lastSync: '2 hours ago' },
+    { id: 'dukcapil', name: 'Dukcapil - Data Kependudukan', status: 'connected', lastSync: '6 hours ago' },
+    { id: 'bnpb-inarisk', name: 'BNPB - InaRISK Platform', status: 'connected', lastSync: '4 hours ago' },
+    { id: 'bmkg-cuaca', name: 'BMKG - Prakiraan Cuaca & Iklim', status: 'connected', lastSync: '1 hour ago' },
+    { id: 'kemen-pppa', name: 'KemenPPA - Simfoni PPA', status: 'error', lastSync: '3 days ago' },
 ];
 
 export const processingLogs: LogEntry[] = [
     { timestamp: '10:15:02', level: 'INFO', message: 'Data processing pipeline finished successfully.' },
     { timestamp: '10:15:01', level: 'INFO', message: 'Risk scores recalculated for 514 regions.' },
-    { timestamp: '10:12:35', level: 'INFO', message: 'Successfully fetched 15,234 new records from Kemenkes - Imunisasi API.' },
-    { timestamp: '10:10:11', level: 'WARN', message: 'Kemendikbud - Akses PAUD API response delayed. Using cached data.' },
+    { timestamp: '10:14:30', level: 'INFO', message: 'Successfully fetched new data from Kemenkes - SatuSehat.' },
+    { timestamp: '10:13:05', level: 'INFO', message: 'Successfully fetched new data from BPS - Survei Sosial.' },
+    { timestamp: '10:12:35', level: 'INFO', message: 'Successfully fetched 15,234 new records from Dukcapil.' },
+    { timestamp: '10:10:11', level: 'WARN', message: 'Kemendikbud - Dapodik API response delayed. Using cached data.' },
     { timestamp: '10:09:45', level: 'INFO', message: 'Aggregating regional data for Papua.' },
-    { timestamp: '10:08:19', level: 'ERROR', message: 'Failed to connect to Kemensos - Data PKH API. Endpoint timeout.' },
+    { timestamp: '10:08:19', level: 'ERROR', message: 'Failed to connect to KemenPPA - Simfoni PPA API. Endpoint timeout.' },
     { timestamp: '10:05:00', level: 'INFO', message: 'Starting daily data aggregation job...' },
 ];
 
@@ -612,6 +657,21 @@ export const mockInterventionPlans: InterventionPlan[] = [
             { id: 'ai-4-3', text: 'Monitoring dan evaluasi akhir', completed: true },
         ],
         relatedAlertId: 'alert-2'
+    },
+     {
+        id: 'plan-006',
+        title: 'Mitigasi Banjir Rob di Pesisir Jakarta',
+        description: 'Program mitigasi dampak banjir rob pada kesehatan anak, termasuk penyediaan MCK darurat dan layanan kesehatan mobile.',
+        region: 'DKI Jakarta',
+        domain: 'Lingkungan',
+        status: InterventionStatus.Planning,
+        priority: InterventionPriority.High,
+        startDate: '2024-08-15',
+        endDate: '2024-11-15',
+        budget: 750000000,
+        kpi: 'Mengurangi insiden penyakit berbasis air sebesar 20% di area terdampak',
+        actionItems: [],
+        relatedAlertId: 'alert-15'
     },
 ];
 

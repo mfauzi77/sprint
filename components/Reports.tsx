@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import ReportGenerator from './reports/ReportGenerator';
 import ReportDisplay from './reports/ReportDisplay';
-import { ReportParams, ReportData, RegionDetailData } from '../types';
-import { getRegionDetails } from '../services/mockData';
-import { getRegionalAnalysisInsight } from '../services/geminiService';
+import { ReportParams, ReportData, RegionDetailData, MonthlySummaryData, DomainComparisonData, Domain, DomainData } from '../types';
+import { getRegionDetails, keyIndicatorsByDomain, domainsData, regionalForecastData } from '../services/mockData';
+import { getRegionalAnalysisInsight, getMonthlyPerformanceInsight, getDomainComparisonInsight } from '../services/geminiService';
 
 const Reports: React.FC = () => {
     const [reportData, setReportData] = useState<ReportData | null>(null);
@@ -17,26 +17,69 @@ const Reports: React.FC = () => {
 
         try {
             let title = '';
-            let regionData: RegionDetailData | null = null;
-            let aiSummary: string | undefined = undefined;
+            let regionData: RegionDetailData | undefined;
+            let monthlySummary: MonthlySummaryData | undefined;
+            let domainComparisonData: DomainComparisonData | undefined;
+            let aiSummary: string | undefined;
 
-            if (params.type === 'regional-deep-dive' && params.regionId) {
-                regionData = getRegionDetails(params.regionId);
-                if (regionData) {
-                    title = `Laporan Analisis Mendalam Wilayah: ${regionData.name}`;
-                    aiSummary = await getRegionalAnalysisInsight(regionData);
-                } else {
-                    throw new Error(`Data untuk wilayah dengan ID ${params.regionId} tidak ditemukan.`);
-                }
-            } else {
-                 throw new Error('Jenis laporan ini belum diimplementasikan.');
+            switch (params.type) {
+                case 'regional-deep-dive':
+                    if (!params.regionId) throw new Error('Wilayah harus dipilih untuk laporan ini.');
+                    regionData = getRegionDetails(params.regionId) ?? undefined;
+                    if (regionData) {
+                        title = `Laporan Analisis Mendalam Wilayah: ${regionData.name}`;
+                        aiSummary = await getRegionalAnalysisInsight(regionData);
+                    } else {
+                        throw new Error(`Data untuk wilayah dengan ID ${params.regionId} tidak ditemukan.`);
+                    }
+                    break;
+
+                case 'monthly-performance':
+                    if (!params.month) throw new Error('Bulan dan tahun harus dipilih untuk laporan ini.');
+                    const monthName = new Date(params.month + '-02').toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+                    title = `Laporan Kinerja Nasional: ${monthName}`;
+
+                    // Mock data generation for the selected month
+                    monthlySummary = {
+                        keyIndicators: keyIndicatorsByDomain['Semua'].map(ind => ({ ...ind, value: (parseFloat(ind.value) * (0.98 + Math.random() * 0.04)).toFixed(1) + (ind.value.includes('%') ? '%' : '') })),
+                        topImprovingRegions: [...regionalForecastData].sort((a,b) => a.change - b.change).slice(0,5).map(r => ({id: r.id.toString(), name: r.region, riskScore: r.currentRisk, trend: r.change})),
+                        topWorseningRegions: [...regionalForecastData].sort((a,b) => b.change - a.change).slice(0,5).map(r => ({id: r.id.toString(), name: r.region, riskScore: r.currentRisk, trend: r.change})),
+                        nationalRisk: {
+                            score: 65 + (Math.random() - 0.5) * 5,
+                            change: (Math.random() - 0.5) * 2,
+                        }
+                    };
+                    aiSummary = await getMonthlyPerformanceInsight(monthName, monthlySummary);
+                    break;
+                
+                case 'domain-comparison':
+                    title = `Laporan Perbandingan Antar Domain Tahun ${params.year}`;
+                    domainComparisonData = {
+                        stats: (Object.values(domainsData) as DomainData[]).map(d => {
+                            const sortedRegions = [...d.regions].sort((a, b) => a.riskScore - b.riskScore);
+                            return {
+                                domain: d.id,
+                                averageRisk: d.averageRisk,
+                                criticalRegionsCount: d.criticalRegionsCount,
+                                bestPerformer: sortedRegions[0],
+                                worstPerformer: sortedRegions[sortedRegions.length - 1],
+                            };
+                        })
+                    };
+                    aiSummary = await getDomainComparisonInsight(params.year || new Date().getFullYear(), domainComparisonData);
+                    break;
+
+                default:
+                    throw new Error('Jenis laporan ini belum diimplementasikan.');
             }
             
             const generatedReport: ReportData = {
                 params,
                 title,
                 generatedAt: new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' }),
-                regionData: regionData || undefined,
+                regionData,
+                monthlySummary,
+                domainComparisonData,
                 aiSummary,
             };
 

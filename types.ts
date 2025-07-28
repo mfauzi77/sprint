@@ -49,7 +49,7 @@ export enum AlertLevel {
     Critical = "CRITICAL"
 }
 
-export type Domain = 'Kesehatan' | 'Gizi' | 'Pengasuhan' | 'Perlindungan' | 'Kesejahteraan';
+export type Domain = 'Kesehatan' | 'Gizi' | 'Pengasuhan' | 'Perlindungan' | 'Kesejahteraan' | 'Lingkungan';
 export type DomainFilter = Domain | 'Semua';
 
 
@@ -113,6 +113,7 @@ export interface RegionDetailData {
         Pengasuhan: DomainMetrics;
         Perlindungan: DomainMetrics;
         Kesejahteraan: DomainMetrics;
+        Lingkungan: DomainMetrics;
     };
     historicalRisk: { month: string; score: number }[];
 }
@@ -144,7 +145,7 @@ export interface DomainIndicatorData {
 }
 
 export interface DomainData {
-    id: 'Kesehatan' | 'Gizi' | 'Pengasuhan' | 'Perlindungan' | 'Kesejahteraan';
+    id: 'Kesehatan' | 'Gizi' | 'Pengasuhan' | 'Perlindungan' | 'Kesejahteraan' | 'Lingkungan';
     name: string;
     averageRisk: number;
     criticalRegionsCount: number;
@@ -242,17 +243,41 @@ export interface ScenarioParams {
 
 // --- Types for Reports ---
 export type ReportType = 'regional-deep-dive' | 'monthly-performance' | 'domain-comparison';
+
 export interface ReportParams {
     type: ReportType;
     regionId?: string;
-    month?: string;
+    month?: string; // Format: 'YYYY-MM'
     year?: number;
 }
+
+export interface MonthlySummaryData {
+    keyIndicators: KeyIndicatorData[];
+    topImprovingRegions: RegionPerformance[];
+    topWorseningRegions: RegionPerformance[];
+    nationalRisk: {
+        score: number;
+        change: number;
+    }
+}
+
+export interface DomainComparisonData {
+    stats: {
+        domain: Domain;
+        averageRisk: number;
+        criticalRegionsCount: number;
+        bestPerformer: RegionPerformance;
+        worstPerformer: RegionPerformance;
+    }[];
+}
+
 export interface ReportData {
     params: ReportParams;
     generatedAt: string;
     title: string;
     regionData?: RegionDetailData;
+    monthlySummary?: MonthlySummaryData;
+    domainComparisonData?: DomainComparisonData;
     aiSummary?: string;
 }
 
@@ -292,4 +317,12 @@ export interface ParentData {
     upcomingEvents: UpcomingEvent[];
     growthHistory: GrowthRecord[];
     stimulationChecklist: StimulationChecklistItem[];
+}
+
+// --- Type for Gemini Search Grounding ---
+export interface GroundingSource {
+    web: {
+        uri: string;
+        title: string;
+    }
 }

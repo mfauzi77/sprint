@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { DOMAIN_FILTER_ITEMS } from '../constants';
-import { allActiveAlerts, keyIndicatorsByDomain, regionalRiskScores } from '../services/mockData';
+import { allActiveAlerts, keyIndicatorsByDomain, regionsDetails } from '../services/mockData';
 import { getExecutiveBriefing } from '../services/geminiService';
 import NationalRiskOverview from './dashboard/RiskAssessment';
 import KeyHealthIndicators from './dashboard/KeyHealthIndicators';
@@ -32,6 +32,18 @@ const Dashboard: React.FC<DashboardProps> = ({ handleOpenInterventionModal }) =>
         }
         return allActiveAlerts.filter(alert => alert.domain === activeDomain);
     }, [activeDomain]);
+
+    const dynamicRegionalRiskScores = useMemo(() => {
+        const allRegionsData = Object.values(regionsDetails);
+        if (activeDomain === 'Semua') {
+            return allRegionsData.map(r => ({ name: r.name, score: r.overallRisk }));
+        }
+        return allRegionsData.map(r => ({
+            name: r.name,
+            score: r.domains[activeDomain].riskScore
+        }));
+    }, [activeDomain]);
+
 
     const fetchBriefing = async () => {
         setIsBriefingLoading(true);
@@ -105,7 +117,7 @@ const Dashboard: React.FC<DashboardProps> = ({ handleOpenInterventionModal }) =>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-1 space-y-6">
-                   <NationalRiskOverview data={regionalRiskScores} />
+                   <NationalRiskOverview data={dynamicRegionalRiskScores} />
                 </div>
                 <div className="lg:col-span-2 space-y-6">
                     <KeyHealthIndicators data={filteredIndicators} domain={activeDomain} />

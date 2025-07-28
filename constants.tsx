@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { NavItem, View, ResourceType } from './types';
-import { DashboardIcon, UsersIcon, ChartBarIcon, MapIcon, BellAlertIcon, LightBulbIcon, CircleStackIcon, BeakerIcon, BriefcaseIcon, DocumentChartBarIcon, FlagIcon, GlobeAltIcon, ScaleIcon, CubeIcon, WrenchScrewdriverIcon, HomeIcon } from './components/icons/Icons';
+import { DashboardIcon, UsersIcon, ChartBarIcon, MapIcon, BellAlertIcon, LightBulbIcon, CircleStackIcon, BeakerIcon, BriefcaseIcon, DocumentChartBarIcon, FlagIcon, GlobeAltIcon, ScaleIcon, CubeIcon, WrenchScrewdriverIcon, HomeIcon, SunIcon } from './components/icons/Icons';
 
 export const NAVIGATION_ITEMS: NavItem[] = [
     { id: View.LandingPage, label: 'Landing Page', icon: <HomeIcon /> },
@@ -26,7 +26,8 @@ export const DOMAIN_FILTER_ITEMS = [
     { id: 'Gizi', name: 'Gizi', icon: <FlagIcon color="text-yellow-500" /> },
     { id: 'Pengasuhan', name: 'Pengasuhan', icon: <FlagIcon color="text-green-500" /> },
     { id: 'Perlindungan', name: 'Perlindungan', icon: <FlagIcon color="text-blue-500" /> },
-    { id: 'Kesejahteraan', name: 'Kesejahteraan', icon: <FlagIcon color="text-indigo-500" /> }
+    { id: 'Kesejahteraan', name: 'Kesejahteraan', icon: <FlagIcon color="text-indigo-500" /> },
+    { id: 'Lingkungan', name: 'Lingkungan', icon: <SunIcon className="w-5 h-5 text-cyan-500" /> }
 ];
 
 export const DOMAIN_ITEMS = DOMAIN_FILTER_ITEMS.filter(item => item.id !== 'Semua');

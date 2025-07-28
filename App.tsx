@@ -39,7 +39,6 @@ const App: React.FC = () => {
 
   const handleWelcomeComplete = () => {
     sessionStorage.setItem('sprintAppHasVisited', 'true');
-    setActiveView(View.LandingPage);
     setShowWelcome(false);
   };
   

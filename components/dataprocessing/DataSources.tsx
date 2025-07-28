@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { dataSources } from '../../services/mockData';
 import { DataSource, DataSourceStatus } from '../../types';
@@ -17,7 +18,7 @@ const DataSources: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow-sm">
             <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center">
                 <CircleStackIcon className="w-6 h-6 mr-2 text-indigo-500" />
-                Data Source Status
+                Status Sumber Data
             </h3>
             <ul className="space-y-3">
                 {dataSources.map(source => {
@@ -26,7 +27,7 @@ const DataSources: React.FC = () => {
                          <li key={source.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-md">
                             <div>
                                 <p className="font-semibold text-slate-800 text-sm">{source.name}</p>
-                                <p className="text-xs text-slate-500">Last sync: {source.lastSync}</p>
+                                <p className="text-xs text-slate-500">Sinkr. terakhir: {source.lastSync}</p>
                             </div>
                             <div className="flex items-center">
                                  <span className={`px-2 py-0.5 text-xs font-bold rounded-full ${styles.badge}`}>{source.status}</span>

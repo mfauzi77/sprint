@@ -14,23 +14,30 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({ isOpen, onClo
   const [recommendations, setRecommendations] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackText, setFeedbackText] = useState('');
+
+  const fetchRecommendations = async (feedback?: string) => {
+      setIsLoading(true);
+      setError(null);
+      setRecommendations('');
+      try {
+          // In a real app, the 'alert' object would be augmented with the feedback string
+          const result = await getSmartRecommendations(alert);
+          setRecommendations(result);
+      } catch (err) {
+          setError('Gagal memuat rekomendasi. Silakan coba lagi.');
+          console.error(err);
+      } finally {
+          setIsLoading(false);
+      }
+  };
+
 
   useEffect(() => {
     if (isOpen) {
-      const fetchRecommendations = async () => {
-        setIsLoading(true);
-        setError(null);
-        setRecommendations('');
-        try {
-          const result = await getSmartRecommendations(alert);
-          setRecommendations(result);
-        } catch (err) {
-          setError('Failed to fetch recommendations. Please try again.');
-          console.error(err);
-        } finally {
-          setIsLoading(false);
-        }
-      };
+      setShowFeedback(false);
+      setFeedbackText('');
       fetchRecommendations();
     }
   }, [isOpen, alert]);
@@ -42,6 +49,14 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({ isOpen, onClo
   const handleCreatePlan = () => {
     onCreatePlan(alert);
     onClose();
+  }
+
+  const handleFeedbackSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Feedback submitted:", feedbackText); // In real app, send this to backend/AI
+    setShowFeedback(false);
+    // Optionally, refetch recommendations with new feedback context
+    fetchRecommendations(feedbackText);
   }
 
   return (
@@ -72,7 +87,7 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({ isOpen, onClo
           {isLoading && (
             <div className="flex flex-col items-center justify-center h-48">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-                <p className="mt-4 text-gray-600">Analyzing data and generating recommendations...</p>
+                <p className="mt-4 text-gray-600">Menganalisis data dan menghasilkan rekomendasi...</p>
             </div>
           )}
           {error && <p className="text-red-500 text-center">{error}</p>}
@@ -83,20 +98,44 @@ const RecommendationModal: React.FC<RecommendationModalProps> = ({ isOpen, onClo
           )}
         </div>
 
+        <div className="mt-4">
+            {!showFeedback ? (
+                 <button onClick={() => setShowFeedback(true)} className="text-xs text-slate-500 hover:text-indigo-600 hover:underline">
+                    Saran tidak sesuai? Berikan masukan untuk analisis ulang.
+                </button>
+            ) : (
+                <form onSubmit={handleFeedbackSubmit} className="mt-2 p-3 bg-slate-100 rounded-md">
+                    <label htmlFor="feedback" className="block text-sm font-medium text-slate-700">Apa yang membuat analisis ini kurang tepat?</label>
+                    <textarea 
+                        id="feedback"
+                        value={feedbackText}
+                        onChange={(e) => setFeedbackText(e.target.value)}
+                        rows={2}
+                        className="mt-1 block w-full shadow-sm sm:text-sm border-slate-300 rounded-md"
+                        placeholder="Contoh: Intervensi ini tidak cocok untuk daerah pesisir..."
+                    />
+                    <div className="flex justify-end gap-2 mt-2">
+                         <button type="button" onClick={() => setShowFeedback(false)} className="px-3 py-1 text-xs font-semibold text-gray-700 bg-white rounded-lg border border-gray-300 hover:bg-gray-50">Batal</button>
+                         <button type="submit" className="px-3 py-1 text-xs font-semibold text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700">Kirim & Analisis Ulang</button>
+                    </div>
+                </form>
+            )}
+        </div>
+
         <div className="mt-8 flex flex-col sm:flex-row-reverse gap-3 sm:gap-0 sm:justify-start">
             <button
                 type="button"
                 onClick={handleCreatePlan}
                 className="w-full sm:w-auto sm:ml-3 px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-                Create Intervention Plan
+                Buat Rencana Intervensi
             </button>
             <button
                 type="button"
                 className="w-full sm:w-auto px-4 py-2 text-sm font-semibold text-gray-700 bg-white rounded-lg border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={onClose}
             >
-                Close
+                Tutup
             </button>
         </div>
       </div>

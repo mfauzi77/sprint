@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { mockResourceData, regionalRiskScores } from '../services/mockData';
-import { ResourceData, ResourceItem, ResourceType, ScenarioParams } from '../types';
+import { ResourceData, ResourceItem, ResourceType, ScenarioParams, GroundingSource } from '../types';
 import { RESOURCE_TYPES } from '../constants';
-import { BriefcaseIcon, CubeIcon, LightBulbIcon, ScaleIcon, UsersIcon, WrenchScrewdriverIcon, ArrowPathIcon } from './icons/Icons';
+import { BriefcaseIcon, CubeIcon, LightBulbIcon, ScaleIcon, UsersIcon, WrenchScrewdriverIcon, ArrowPathIcon, LinkIcon } from './icons/Icons';
 import { generateAllocationSuggestion, generateScenarioAnalysis } from '../services/geminiService';
 
 const AllocationSummary: React.FC<{ data: ResourceData }> = ({ data }) => {
@@ -41,10 +41,40 @@ const AllocationSummary: React.FC<{ data: ResourceData }> = ({ data }) => {
     );
 };
 
+const SourceList: React.FC<{ sources: GroundingSource[] }> = ({ sources }) => {
+    if (!sources || sources.length === 0) return null;
+
+    return (
+        <div className="mt-6 pt-4 border-t border-slate-200">
+            <h4 className="text-sm font-semibold text-slate-700 mb-2 flex items-center">
+                <LinkIcon className="w-4 h-4 mr-2" />
+                Sumber Informasi (berdasarkan Google Search)
+            </h4>
+            <ul className="space-y-2">
+                {sources.map((source, index) => (
+                    source.web && <li key={index} className="bg-slate-50 p-2 rounded-md">
+                        <a
+                            href={source.web.uri}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-indigo-600 hover:text-indigo-800 hover:underline flex items-start group"
+                        >
+                            <span className="font-semibold mr-2 text-indigo-500">{index + 1}.</span>
+                            <span className="group-hover:text-indigo-800 transition-colors">{source.web.title}</span>
+                        </a>
+                        <p className="text-xs text-slate-500 ml-6 truncate">{source.web.uri}</p>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+
 const AllocationOptimizer: React.FC<{ resourceData: ResourceData, riskRegions: string[] }> = ({ resourceData, riskRegions }) => {
     const [budget, setBudget] = useState(25); // in Miliar IDR
     const [isLoading, setIsLoading] = useState(false);
-    const [suggestion, setSuggestion] = useState<string | null>(null);
+    const [suggestion, setSuggestion] = useState<{ content: string, sources: GroundingSource[] } | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const handleGenerate = async () => {
@@ -94,11 +124,12 @@ const AllocationOptimizer: React.FC<{ resourceData: ResourceData, riskRegions: s
             )}
             {error && <p className="text-red-500 text-center mt-4">{error}</p>}
             {suggestion && (
-                <div className="mt-4 p-4 border-t">
+                <div className="mt-4 pt-4 border-t">
                     <div
                         className="prose prose-sm max-w-none text-gray-700"
-                        dangerouslySetInnerHTML={{ __html: suggestion.replace(/\n/g, '<br />') }}
+                        dangerouslySetInnerHTML={{ __html: suggestion.content.replace(/\n/g, '<br />') }}
                     />
+                    <SourceList sources={suggestion.sources} />
                 </div>
             )}
         </div>
@@ -108,7 +139,7 @@ const AllocationOptimizer: React.FC<{ resourceData: ResourceData, riskRegions: s
 const ScenarioPlanner: React.FC = () => {
     const [params, setParams] = useState<ScenarioParams>({ budgetChange: 15, sdmFocus: 'Gizi', regionFocus: 'High Risk' });
     const [isLoading, setIsLoading] = useState(false);
-    const [analysis, setAnalysis] = useState<string | null>(null);
+    const [analysis, setAnalysis] = useState<{ content: string, sources: GroundingSource[] } | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const handleGenerate = async () => {
@@ -168,11 +199,12 @@ const ScenarioPlanner: React.FC = () => {
             )}
             {error && <p className="text-red-500 text-center mt-4">{error}</p>}
             {analysis && (
-                <div className="mt-4 p-4 border-t">
+                <div className="mt-4 pt-4 border-t">
                     <div
                         className="prose prose-sm max-w-none text-gray-700"
-                        dangerouslySetInnerHTML={{ __html: analysis.replace(/\n/g, '<br />') }}
+                        dangerouslySetInnerHTML={{ __html: analysis.content.replace(/\n/g, '<br />') }}
                     />
+                    <SourceList sources={analysis.sources} />
                 </div>
             )}
         </div>
