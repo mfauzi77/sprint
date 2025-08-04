@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { NavItem, View, ResourceType } from './types';
-import { DashboardIcon, UsersIcon, ChartBarIcon, MapIcon, BellAlertIcon, LightBulbIcon, CircleStackIcon, BeakerIcon, BriefcaseIcon, DocumentChartBarIcon, FlagIcon, GlobeAltIcon, ScaleIcon, CubeIcon, WrenchScrewdriverIcon, HomeIcon, SunIcon } from './components/icons/Icons';
+import { DashboardIcon, UsersIcon, ChartBarIcon, MapIcon, BellAlertIcon, LightBulbIcon, CircleStackIcon, BeakerIcon, BriefcaseIcon, DocumentChartBarIcon, FlagIcon, GlobeAltIcon, ScaleIcon, CubeIcon, WrenchScrewdriverIcon, HomeIcon, SunIcon, UserCircleIcon } from './components/icons/Icons';
 
 export const NAVIGATION_ITEMS: NavItem[] = [
     { id: View.LandingPage, label: 'Landing Page', icon: <HomeIcon /> },
@@ -18,6 +18,10 @@ export const NAVIGATION_ITEMS: NavItem[] = [
 export const SUB_NAVIGATION_ITEMS: NavItem[] = [
     { id: View.ResourceAllocation, label: 'Resource Allocation', icon: <BriefcaseIcon /> },
     { id: View.Reports, label: 'Reports & Analytics', icon: <DocumentChartBarIcon /> },
+];
+
+export const PERSONAL_NAVIGATION_ITEMS: NavItem[] = [
+    { id: View.ParentDashboard, label: 'Dashboard Orang Tua', icon: <UserCircleIcon /> },
 ];
 
 export const DOMAIN_FILTER_ITEMS = [

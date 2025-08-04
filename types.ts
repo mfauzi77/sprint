@@ -12,7 +12,8 @@ export enum View {
     DataProcessing = "Data Processing",
     Intervensi = "Manajemen Intervensi", // Updated Label
     ResourceAllocation = "Resource Allocation",
-    Reports = "Reports & Analytics"
+    Reports = "Reports & Analytics",
+    ParentDashboard = "Dashboard Orang Tua"
 }
 
 export interface NavItem {
@@ -116,7 +117,27 @@ export interface RegionDetailData {
         Lingkungan: DomainMetrics;
     };
     historicalRisk: { month: string; score: number }[];
+    kabupatenKotaIds?: string[];
 }
+
+export interface KabupatenKotaDetailData {
+    id: string;
+    name: string;
+    parentRegionId: string;
+    overallRisk: number;
+    population: number;
+    activeAlertsCount: number;
+    domains: {
+        Kesehatan: DomainMetrics;
+        Gizi: DomainMetrics;
+        Pengasuhan: DomainMetrics;
+        Perlindungan: DomainMetrics;
+        Kesejahteraan: DomainMetrics;
+        Lingkungan: DomainMetrics;
+    };
+    historicalRisk: { month: string; score: number }[];
+}
+
 
 export interface RegionalRiskScore {
     name: string;

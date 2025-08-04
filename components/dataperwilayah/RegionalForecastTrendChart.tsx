@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 
 export interface ForecastTrendPoint {
@@ -11,10 +12,11 @@ export interface ForecastTrendPoint {
 
 interface RegionalForecastTrendChartProps {
     regionName: string;
+    parentRegionName?: string;
     data: ForecastTrendPoint[];
 }
 
-const RegionalForecastTrendChart: React.FC<RegionalForecastTrendChartProps> = ({ regionName, data }) => {
+const RegionalForecastTrendChart: React.FC<RegionalForecastTrendChartProps> = ({ regionName, parentRegionName = "Nasional", data }) => {
     const chartWidth = 500;
     const chartHeight = 300;
     const padding = 50;
@@ -40,8 +42,8 @@ const RegionalForecastTrendChart: React.FC<RegionalForecastTrendChartProps> = ({
 
     return (
         <div>
-            <h3 className="text-lg font-bold text-slate-800">Tren & Prediksi Risiko (vs. Nasional)</h3>
-            <p className="text-sm text-slate-500 mb-4">Perbandingan histori dan prediksi risiko wilayah terpilih dengan rata-rata nasional.</p>
+            <h3 className="text-lg font-bold text-slate-800">Tren & Prediksi Risiko (vs. {parentRegionName})</h3>
+            <p className="text-sm text-slate-500 mb-4">Perbandingan histori dan prediksi risiko wilayah terpilih dengan {parentRegionName.toLowerCase()}.</p>
             <div className="w-full overflow-x-auto">
                 <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
                     {/* Y-Axis lines and labels */}
@@ -75,7 +77,7 @@ const RegionalForecastTrendChart: React.FC<RegionalForecastTrendChartProps> = ({
                     
                     {nationalActualData.map((p, i) => (
                         <circle key={`national-dot-${i}`} cx={getX(i)} cy={getY(p.nationalActual!)} r="3" className="fill-white stroke-slate-500" strokeWidth="2">
-                           <title>Nasional - {p.month}: {p.nationalActual}</title>
+                           <title>{parentRegionName} - {p.month}: {p.nationalActual}</title>
                         </circle>
                     ))}
                     
@@ -96,8 +98,8 @@ const RegionalForecastTrendChart: React.FC<RegionalForecastTrendChartProps> = ({
              <div className="flex items-center justify-center flex-wrap gap-x-4 gap-y-2 mt-4 text-xs text-slate-600">
                 <div className="flex items-center"><span className="w-3 h-0.5 bg-indigo-600 mr-2"></span>{regionName} (Aktual)</div>
                 <div className="flex items-center"><span className="w-3 h-0.5 border-t-2 border-dashed border-indigo-400 mr-2"></span>{regionName} (Prediksi)</div>
-                <div className="flex items-center"><span className="w-3 h-0.5 bg-slate-500 mr-2"></span>Nasional (Aktual)</div>
-                <div className="flex items-center"><span className="w-3 h-0.5 border-t-2 border-dashed border-slate-400 mr-2"></span>Nasional (Prediksi)</div>
+                <div className="flex items-center"><span className="w-3 h-0.5 bg-slate-500 mr-2"></span>{parentRegionName} (Aktual)</div>
+                <div className="flex items-center"><span className="w-3 h-0.5 border-t-2 border-dashed border-slate-400 mr-2"></span>{parentRegionName} (Prediksi)</div>
             </div>
         </div>
     );

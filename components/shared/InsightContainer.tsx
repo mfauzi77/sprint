@@ -45,7 +45,7 @@ const InsightContainer: React.FC<InsightContainerProps> = ({
             return (
                 <div className="flex items-center justify-center h-full w-full">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mr-4"></div>
-                    <p className="text-gray-600 text-sm">{loadingText}</p>
+                    <p className="text-gray-600 dark:text-slate-300 text-sm">{loadingText}</p>
                 </div>
             );
         }
@@ -58,14 +58,14 @@ const InsightContainer: React.FC<InsightContainerProps> = ({
             return (
                  <div className="w-full">
                     <div 
-                        className="prose prose-sm max-w-none text-gray-700"
+                        className="prose prose-sm max-w-none text-gray-700 dark:text-slate-300 dark:prose-strong:text-slate-100"
                         dangerouslySetInnerHTML={{ __html: parsedContent.insight.replace(/\n/g, '<br />') }} 
                     />
                     {parsedContent.justification && (
-                        <div className="mt-4 pt-4 border-t border-dashed border-slate-300">
-                             <h4 className="font-bold text-sm text-slate-600 mb-2">Dasar Analisis</h4>
+                        <div className="mt-4 pt-4 border-t border-dashed border-slate-300 dark:border-slate-600">
+                             <h4 className="font-bold text-sm text-slate-600 dark:text-slate-300 mb-2">Dasar Analisis</h4>
                              <div 
-                                className="prose prose-sm max-w-none text-slate-600"
+                                className="prose prose-sm max-w-none text-slate-600 dark:text-slate-400"
                                 dangerouslySetInnerHTML={{ __html: parsedContent.justification.replace(/\n/g, '<br />') }} 
                             />
                         </div>
@@ -78,39 +78,39 @@ const InsightContainer: React.FC<InsightContainerProps> = ({
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-lg shadow-sm dark:bg-slate-800">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold text-slate-800 flex items-center">
+                <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center">
                     {icon}
                     {title}
                 </h3>
                 <button 
                     onClick={() => onRegenerate()}
                     disabled={isLoading}
-                    className="flex items-center px-3 py-1.5 text-xs font-semibold text-indigo-700 bg-indigo-100 rounded-lg hover:bg-indigo-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center px-3 py-1.5 text-xs font-semibold text-indigo-700 bg-indigo-100 rounded-lg hover:bg-indigo-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed dark:bg-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/30"
                     aria-label="Regenerate insight"
                 >
                     <ArrowPathIcon className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
                     Regenerate
                 </button>
             </div>
-            <div className="p-4 bg-slate-50 rounded-md min-h-[10rem] flex">
+            <div className="p-4 bg-slate-50 rounded-md min-h-[10rem] flex dark:bg-slate-700">
                 {renderContent()}
             </div>
             {!isLoading && !error && content && (
-                 <div className="mt-4 pt-4 border-t border-slate-200 flex items-center justify-end gap-4">
-                    <span className="text-sm text-slate-600">Apakah ini membantu?</span>
+                 <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-end gap-4">
+                    <span className="text-sm text-slate-600 dark:text-slate-400">Apakah ini membantu?</span>
                     <div className="flex gap-2">
                         <button 
                             onClick={() => setFeedback('good')} 
-                            className={`p-2 rounded-full transition-colors ${feedback === 'good' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+                            className={`p-2 rounded-full transition-colors ${feedback === 'good' ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 dark:bg-slate-600 dark:text-slate-400 dark:hover:bg-slate-500'}`}
                             aria-label="Insight was helpful"
                         >
                             <HandThumbUpIcon className="w-5 h-5" />
                         </button>
                         <button 
                             onClick={() => { setFeedback('bad'); setIsFeedbackModalOpen(true); }}
-                            className={`p-2 rounded-full transition-colors ${feedback === 'bad' ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}
+                            className={`p-2 rounded-full transition-colors ${feedback === 'bad' ? 'bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-400' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 dark:bg-slate-600 dark:text-slate-400 dark:hover:bg-slate-500'}`}
                              aria-label="Insight was not helpful"
                         >
                             <HandThumbDownIcon className="w-5 h-5" />

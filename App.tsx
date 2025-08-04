@@ -16,6 +16,8 @@ import { mockInterventionPlans } from './services/mockData';
 import LandingPage from './components/LandingPage';
 import WelcomeScreen from './components/WelcomeScreen';
 import Reports from './components/Reports';
+import ParentDashboard from './components/ParentDashboard';
+import { ThemeProvider } from './components/ThemeContext';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -98,6 +100,8 @@ const App: React.FC = () => {
         return <ResourceAllocation />;
       case View.Reports:
         return <Reports />;
+      case View.ParentDashboard:
+        return <ParentDashboard />;
       default:
         return <Placeholder title={activeView} />;
     }
@@ -113,26 +117,32 @@ const App: React.FC = () => {
 
 
   return (
-    <div className={`relative flex h-screen bg-slate-100 font-sans transition-opacity duration-500 ease-in-out opacity-100`}>
-      <Sidebar 
-        activeView={activeView} 
-        setActiveView={setActiveView} 
-        isOpen={isSidebarOpen} 
-        setIsOpen={setIsSidebarOpen} 
-      />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header setIsSidebarOpen={setIsSidebarOpen} onLogout={handleLogout} />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50 p-6 print:bg-white print:p-0">
-          {renderContent()}
-        </main>
-      </div>
-       <InterventionFormModal
-          isOpen={isInterventionModalOpen}
-          onClose={handleCloseInterventionModal}
-          onSave={handleSaveIntervention}
-          initialData={interventionInitialData}
+    <ThemeProvider>
+        <div className={`relative flex h-screen bg-slate-100 font-sans transition-opacity duration-500 ease-in-out opacity-100 dark:bg-slate-950`}>
+        <Sidebar 
+            activeView={activeView} 
+            setActiveView={setActiveView} 
+            isOpen={isSidebarOpen} 
+            setIsOpen={setIsSidebarOpen} 
         />
-    </div>
+        <div className="flex-1 flex flex-col overflow-hidden">
+            <Header 
+                setIsSidebarOpen={setIsSidebarOpen} 
+                onLogout={handleLogout} 
+                setActiveView={setActiveView}
+            />
+            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50 p-6 print:bg-white print:p-0 dark:bg-slate-900">
+            {renderContent()}
+            </main>
+        </div>
+        <InterventionFormModal
+            isOpen={isInterventionModalOpen}
+            onClose={handleCloseInterventionModal}
+            onSave={handleSaveIntervention}
+            initialData={interventionInitialData}
+            />
+        </div>
+    </ThemeProvider>
   );
 };
 

@@ -1,14 +1,15 @@
 import React from 'react';
 import { RegionDetailData } from '../../types';
-import { ChartBarIcon, UsersIcon, GlobeAltIcon } from '../icons/Icons';
+import { ChartBarIcon, UsersIcon, GlobeAltIcon, BellAlertIcon } from '../icons/Icons';
 
 interface RegionSummaryProps {
     data: RegionDetailData;
+    alertsCount?: number;
 }
 
 const nationalAverageRisk = 65; // This would typically come from an API
 
-const RegionSummary: React.FC<RegionSummaryProps> = ({ data }) => {
+const RegionSummary: React.FC<RegionSummaryProps> = ({ data, alertsCount }) => {
     const riskDifference = data.overallRisk - nationalAverageRisk;
     
     const StatCard: React.FC<{ icon: React.ReactNode, title: string, value: string, footer?: React.ReactNode }> = ({ icon, title, value, footer }) => (
@@ -46,10 +47,10 @@ const RegionSummary: React.FC<RegionSummaryProps> = ({ data }) => {
                 footer={<p>Estimasi populasi anak usia dini.</p>}
             />
             <StatCard 
-                icon={<GlobeAltIcon className="w-8 h-8 text-indigo-500" />}
+                icon={<BellAlertIcon className="w-8 h-8 text-indigo-500" />}
                 title="Alert Aktif"
-                value={data.activeAlertsCount.toString()}
-                footer={<p>Jumlah alert aktif di wilayah ini.</p>}
+                value={(alertsCount ?? data.activeAlertsCount).toString()}
+                footer={<p>Jumlah alert aktif di wilayah &amp; sub-wilayahnya.</p>}
             />
         </div>
     );
