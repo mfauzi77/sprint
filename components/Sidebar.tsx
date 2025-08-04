@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, se
 
     <aside className={`fixed lg:relative inset-y-0 left-0 w-64 flex-shrink-0 bg-white shadow-lg flex flex-col p-4 z-30 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 dark:bg-slate-800 dark:border-r dark:border-slate-700`}>
       <div className="flex items-center mb-6 px-2">
-        <img src="https://seeklogo.com/images/K/kementerian-koordinator-bidang-pembangunan-manusia-dan-kebudayaan-logo-80BC41285B-seeklogo.com.png" alt="Logo Kemenko PMK" className="h-12 w-12 mr-3"/>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Seal_of_the_Coordinating_Ministry_of_Human_Developments_and_Culture_of_the_Republic_of_Indonesia.svg" alt="Logo Kemenko PMK" className="h-12 w-12 mr-3"/>
         <div className="text-gray-800 dark:text-slate-200">
             <p className="font-bold text-sm">KEMENKO PMK</p>
             <p className="text-xs text-gray-500 dark:text-slate-400">SPRINT</p>
