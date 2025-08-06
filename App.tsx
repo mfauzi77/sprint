@@ -17,6 +17,7 @@ import LandingPage from './components/LandingPage';
 import WelcomeScreen from './components/WelcomeScreen';
 import Reports from './components/Reports';
 import ParentDashboard from './components/ParentDashboard';
+import InputData from './components/InputData';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -128,6 +129,8 @@ const App: React.FC = () => {
         return <InterventionManagement plans={interventionPlans} onOpenModal={handleOpenInterventionModal} />;
       case View.DataProcessing:
         return <DataProcessing />;
+      case View.InputData:
+        return <InputData />;
       case View.ResourceAllocation:
         return <ResourceAllocation />;
       case View.Reports:

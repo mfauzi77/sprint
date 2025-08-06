@@ -87,13 +87,12 @@ const Header: React.FC<HeaderProps> = ({ setIsSidebarOpen, onLogout, setActiveVi
         <div className="relative" ref={profileMenuRef}>
           <button onClick={() => setIsProfileMenuOpen(prev => !prev)} className="flex items-center" aria-expanded={isProfileMenuOpen} aria-haspopup="true">
             <img
-              src="https://picsum.photos/id/64/200/200"
+              src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
               alt="User Avatar"
               className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover ring-2 ring-offset-2 ring-transparent group-hover:ring-indigo-500 transition-all"
             />
             <div className="ml-2 md:ml-3 text-right hidden sm:block">
-              <p className="text-sm font-semibold text-slate-800">Dr. Siti Rahman</p>
-              <p className="text-xs text-slate-500">Koordinator Regional</p>
+              <p className="text-sm font-semibold text-slate-800">Hai, Administrator</p>
             </div>
           </button>
           

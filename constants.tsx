@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { NavItem, View, ResourceType } from './types';
-import { DashboardIcon, UsersIcon, ChartBarIcon, MapIcon, BellAlertIcon, LightBulbIcon, CircleStackIcon, BeakerIcon, BriefcaseIcon, DocumentChartBarIcon, FlagIcon, GlobeAltIcon, ScaleIcon, CubeIcon, WrenchScrewdriverIcon, HomeIcon, SunIcon, UserCircleIcon } from './components/icons/Icons';
+import { DashboardIcon, UsersIcon, ChartBarIcon, MapIcon, BellAlertIcon, LightBulbIcon, CircleStackIcon, BeakerIcon, BriefcaseIcon, DocumentChartBarIcon, FlagIcon, GlobeAltIcon, ScaleIcon, CubeIcon, WrenchScrewdriverIcon, HomeIcon, SunIcon, UserCircleIcon, DocumentPlusIcon } from './components/icons/Icons';
 
 export const NAVIGATION_ITEMS: NavItem[] = [
     { id: View.LandingPage, label: 'Landing Page', icon: <HomeIcon /> },
@@ -13,6 +13,7 @@ export const NAVIGATION_ITEMS: NavItem[] = [
     { id: View.SmartRecommendations, label: 'Rekomendasi SPRINT', icon: <LightBulbIcon /> },
     { id: View.Intervensi, label: 'Manajemen Intervensi', icon: <BeakerIcon /> },
     { id: View.DataProcessing, label: 'Data Processing', icon: <CircleStackIcon /> },
+    { id: View.InputData, label: 'Input Data', icon: <DocumentPlusIcon /> },
 ];
 
 export const SUB_NAVIGATION_ITEMS: NavItem[] = [

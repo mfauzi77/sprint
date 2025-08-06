@@ -10,6 +10,7 @@ export enum View {
     EWSPerBidang = "Analisis per Bidang",
     SmartRecommendations = "Rekomendasi SPRINT",
     DataProcessing = "Data Processing",
+    InputData = "Input Data",
     Intervensi = "Manajemen Intervensi", // Updated Label
     ResourceAllocation = "Resource Allocation",
     Reports = "Reports & Analytics",
