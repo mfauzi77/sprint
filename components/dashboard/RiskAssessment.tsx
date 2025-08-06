@@ -19,23 +19,23 @@ const NationalRiskOverview: React.FC<NationalRiskOverviewProps> = ({ data }) => 
     const sortedData = [...data].sort((a, b) => b.score - a.score).slice(0, 10);
     
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm h-full flex flex-col dark:bg-slate-800">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center">
+        <div className="bg-white p-6 rounded-lg shadow-sm h-full flex flex-col">
+            <h3 className="text-lg font-bold text-slate-800 mb-2 flex items-center">
                 <ChartBarIcon className="w-6 h-6 mr-2" />
                 Top 10 High-Risk Provinces
             </h3>
-             <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Peringkat provinsi berdasarkan skor risiko tertinggi.</p>
+             <p className="text-sm text-slate-500 mb-4">Peringkat provinsi berdasarkan skor risiko tertinggi.</p>
             
             <div className="flex-grow space-y-3 pr-2 -mr-2 overflow-y-auto">
                 {sortedData.map((region) => {
                     const barColor = getRiskColor(region.score);
                     return (
                         <div key={region.name} className="flex items-center group" title={`${region.name} - Skor Risiko: ${region.score}`}>
-                            <div className="w-2/5 sm:w-1/3 text-sm font-medium text-slate-600 dark:text-slate-300 truncate pr-2">
+                            <div className="w-2/5 sm:w-1/3 text-sm font-medium text-slate-600 truncate pr-2">
                                 {region.name}
                             </div>
                             <div className="w-3/5 sm:w-2/3 flex items-center">
-                                <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-5 relative">
+                                <div className="w-full bg-slate-200 rounded-full h-5 relative">
                                     <div 
                                         className={`absolute top-0 left-0 h-full rounded-full transition-all duration-500 ${barColor}`}
                                         style={{ width: `${region.score}%` }}
@@ -51,7 +51,7 @@ const NationalRiskOverview: React.FC<NationalRiskOverviewProps> = ({ data }) => 
                 })}
             </div>
 
-            <div className="flex justify-end flex-wrap gap-x-2 gap-y-1 mt-4 text-xs text-slate-600 dark:text-slate-300">
+            <div className="flex justify-end flex-wrap gap-x-2 gap-y-1 mt-4 text-xs text-slate-600">
                 <div className="flex items-center"><span className="w-2.5 h-2.5 rounded-sm bg-emerald-500 mr-1"></span>Rendah</div>
                 <div className="flex items-center"><span className="w-2.5 h-2.5 rounded-sm bg-yellow-400 mr-1"></span>Sedang</div>
                 <div className="flex items-center"><span className="w-2.5 h-2.5 rounded-sm bg-orange-500 mr-1"></span>Tinggi</div>

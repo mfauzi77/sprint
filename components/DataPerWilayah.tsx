@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { getAvailableRegions, getRegionDetails, nationalHistoricalRisk, allActiveAlerts, domainsData, kabupatenKotaDetails } from '../services/mockData';
 import { getRegionalAnalysisInsight } from '../services/geminiService';
@@ -16,9 +14,11 @@ import { ArrowRightIcon } from './icons/Icons';
 
 interface DataPerWilayahProps {
     handleOpenInterventionModal: (initialData?: Partial<InterventionPlan>, navigate?: boolean) => void;
+    navigationContext: { regionId: string; kabupatenKotaId?: string } | null;
+    onContextHandled: () => void;
 }
 
-const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionModal }) => {
+const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionModal, navigationContext, onContextHandled }) => {
     const [regions, setRegions] = useState<{id: string, name: string}[]>([]);
     const [selectedRegionId, setSelectedRegionId] = useState<string>('');
     const [selectedKabupatenKotaId, setSelectedKabupatenKotaId] = useState<string | null>(null);
@@ -33,10 +33,23 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
     const [isInsightLoading, setIsInsightLoading] = useState(false);
     const [insightError, setInsightError] = useState<string | null>(null);
 
+    // Effect for handling external navigation context
+    useEffect(() => {
+        if (navigationContext) {
+            if (selectedRegionId !== navigationContext.regionId) {
+                setSelectedRegionId(navigationContext.regionId);
+            }
+            setSelectedKabupatenKotaId(navigationContext.kabupatenKotaId || null);
+            window.scrollTo(0, 0);
+            onContextHandled();
+        }
+    }, [navigationContext]);
+
+    // Effect for initializing component and loading regions list
     useEffect(() => {
         const availableRegions = getAvailableRegions();
         setRegions(availableRegions);
-        if (availableRegions.length > 0) {
+        if (availableRegions.length > 0 && !selectedRegionId) {
             const defaultRegion = availableRegions.find(r => r.id === 'jawa-barat') || availableRegions[0];
             setSelectedRegionId(defaultRegion.id);
         }
@@ -47,7 +60,6 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
         setIsInsightLoading(true);
         setInsightError(null);
         try {
-            // The getRegionalAnalysisInsight is compatible with both types
             const result = await getRegionalAnalysisInsight(data as RegionDetailData);
             setInsight(result);
         } catch (err) {
@@ -57,11 +69,18 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
         }
     };
 
+    // Effect for fetching data when selected PROVINCE changes
     useEffect(() => {
         if (selectedRegionId) {
             const data = getRegionDetails(selectedRegionId);
             setRegionData(data);
-            setSelectedKabupatenKotaId(null); // Reset city selection when province changes
+            
+            // Check if the current city is valid for the new province, reset if not
+            const currentCityIsValid = data?.kabupatenKotaIds?.includes(selectedKabupatenKotaId || '');
+            if (!currentCityIsValid) {
+                setSelectedKabupatenKotaId(null);
+            }
+            
             if (data) {
                 const subRegionNames = data.kabupatenKotaIds?.map(id => kabupatenKotaDetails[id]?.name).filter(Boolean) || [];
                 const alerts = allActiveAlerts.filter(a => a.region === data.name || subRegionNames.includes(a.region));
@@ -71,8 +90,6 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
                     ?.map(id => kabupatenKotaDetails[id])
                     .filter((d): d is KabupatenKotaDetailData => !!d) || [];
                 setKabupatenKotaData(subRegionData);
-                
-                fetchInsight(data);
             } else {
                 setRegionalAlerts([]);
                 setKabupatenKotaData([]);
@@ -95,14 +112,14 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
         return kabupatenKotaData.find(k => k.id === selectedKabupatenKotaId) ?? null;
     }, [selectedKabupatenKotaId, kabupatenKotaData]);
 
+    // Effect for fetching INSIGHT when the view changes (province or city)
     useEffect(() => {
         if (selectedKabupatenKota) {
             fetchInsight(selectedKabupatenKota);
         } else if (regionData) {
-            // Refetch for province when backing up
             fetchInsight(regionData);
         }
-    }, [selectedKabupatenKota]);
+    }, [selectedKabupatenKota, regionData]);
 
 
     const kabupatenKotaAlerts = useMemo(() => {
@@ -217,7 +234,10 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
                     <select
                         id="region-select"
                         value={selectedRegionId}
-                        onChange={(e) => setSelectedRegionId(e.target.value)}
+                        onChange={(e) => {
+                            setSelectedRegionId(e.target.value);
+                            setSelectedKabupatenKotaId(null); // Reset city when user manually changes province
+                        }}
                         className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:w-64 p-2.5"
                     >
                         {regions.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
@@ -232,7 +252,7 @@ const DataPerWilayah: React.FC<DataPerWilayahProps> = ({ handleOpenInterventionM
                         <button onClick={handleBackToProvince} className="hover:underline text-indigo-600">
                            {regionData.name}
                         </button>
-                        <ArrowRightIcon className="w-4 h-4 mx-2 text-slate-400 transform -rotate-180" />
+                        <svg className="w-4 h-4 mx-2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
                         <span className="text-slate-800">{selectedKabupatenKota.name}</span>
                     </div>
 

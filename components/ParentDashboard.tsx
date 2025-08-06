@@ -12,8 +12,8 @@ const ParentDashboard: React.FC = () => {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">Dashboard Orang Tua</h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Selamat datang! Pantau tumbuh kembang {data.childProfile.name} di sini.</p>
+                <h2 className="text-2xl font-bold text-slate-800">Dashboard Orang Tua</h2>
+                <p className="text-sm text-slate-500 mt-1">Selamat datang! Pantau tumbuh kembang {data.childProfile.name} di sini.</p>
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

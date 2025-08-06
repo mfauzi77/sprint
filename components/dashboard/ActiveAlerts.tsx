@@ -16,13 +16,13 @@ const ActiveAlerts: React.FC<ActiveAlertsProps> = ({ data, onAnalyze, onCreatePl
   const getLevelStyles = (level: AlertLevel): string => {
     switch (level) {
       case AlertLevel.Critical:
-          return 'border-red-700 bg-red-100 text-red-900 dark:bg-red-900/20 dark:text-red-200 dark:border-red-500';
+          return 'border-red-700 bg-red-100 text-red-900';
       case AlertLevel.High:
-        return 'border-red-500 bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300 dark:border-red-600';
+        return 'border-red-500 bg-red-50 text-red-700';
       case AlertLevel.Medium:
-        return 'border-orange-500 bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-300 dark:border-orange-600';
+        return 'border-orange-500 bg-orange-50 text-orange-700';
       default:
-        return 'border-gray-300 bg-gray-50 text-gray-700 dark:bg-gray-700/20 dark:text-gray-300 dark:border-gray-600';
+        return 'border-gray-300 bg-gray-50 text-gray-700';
     }
   };
 
@@ -40,17 +40,17 @@ const ActiveAlerts: React.FC<ActiveAlertsProps> = ({ data, onAnalyze, onCreatePl
     return (
       <button 
         onClick={() => setActiveFilter(filter)}
-        className={`px-3 py-1.5 text-sm font-semibold rounded-md transition-colors ${isActive ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600'}`}
+        className={`px-3 py-1.5 text-sm font-semibold rounded-md transition-colors ${isActive ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`}
       >
-        {label} <span className={`ml-1.5 px-2 py-0.5 rounded-full text-xs ${isActive ? 'bg-white text-indigo-600' : 'bg-slate-300 text-slate-600 dark:bg-slate-600 dark:text-slate-200'}`}>{count}</span>
+        {label} <span className={`ml-1.5 px-2 py-0.5 rounded-full text-xs ${isActive ? 'bg-white text-indigo-600' : 'bg-slate-300 text-slate-600'}`}>{count}</span>
       </button>
     )
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm dark:bg-slate-800">
+    <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-4">
-        <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">Alert Aktif</h3>
+        <h3 className="text-lg font-bold text-slate-800">Alert Aktif</h3>
         <div className="flex items-center space-x-2 mt-3 sm:mt-0">
           <FilterTab filter="Semua" label="Semua" />
           <FilterTab filter={AlertLevel.Critical} label="Kritis" />
@@ -65,17 +65,17 @@ const ActiveAlerts: React.FC<ActiveAlertsProps> = ({ data, onAnalyze, onCreatePl
                 <div className="flex justify-between items-start">
                     <div>
                       <span className="text-xs font-bold uppercase">{alert.level}</span>
-                      <p className="font-bold text-slate-800 dark:text-slate-200 mt-1">{alert.title}</p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">{alert.region} - {alert.domain}</p>
+                      <p className="font-bold text-slate-800 mt-1">{alert.title}</p>
+                      <p className="text-sm text-slate-600">{alert.region} - {alert.domain}</p>
                     </div>
                      <button 
                         onClick={() => onAnalyze(alert)}
-                        className="px-3 py-1 text-xs font-semibold text-indigo-700 bg-indigo-100 rounded-full hover:bg-indigo-200 transition-all whitespace-nowrap dark:bg-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/30"
+                        className="px-3 py-1 text-xs font-semibold text-indigo-700 bg-indigo-100 rounded-full hover:bg-indigo-200 transition-all whitespace-nowrap"
                     >
                         Analisis AI
                     </button>
                 </div>
-                <div className="text-xs text-slate-600 dark:text-slate-400 mt-2">
+                <div className="text-xs text-slate-600 mt-2">
                   <span className="font-semibold">Risk Score: {alert.riskScore}</span>
                   {alert.trend && <span> | Trend: <span className="font-semibold">{alert.trend > 0 ? `+${alert.trend}`: alert.trend}%</span></span>}
                 </div>
@@ -84,11 +84,11 @@ const ActiveAlerts: React.FC<ActiveAlertsProps> = ({ data, onAnalyze, onCreatePl
           </div>
         ) : (
           <div className="text-center py-10">
-            <p className="text-slate-500 dark:text-slate-400">Tidak ada alert dengan level '{activeFilter}'.</p>
+            <p className="text-slate-500">Tidak ada alert dengan level '{activeFilter}'.</p>
           </div>
         )}
       </div>
-       <div className="flex items-center justify-end space-x-3 pt-4 mt-4 border-t border-slate-200 dark:border-slate-700">
+       <div className="flex items-center justify-end space-x-3 pt-4 mt-4 border-t border-slate-200">
             <button
                 onClick={onCreatePlan}
                 className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all flex items-center">

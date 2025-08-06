@@ -4,9 +4,10 @@ import { FlagIcon, MapIcon, ChartBarIcon } from '../icons/Icons';
 
 interface InterventionCardProps {
     plan: InterventionPlan;
+    onOpenModal: (plan: InterventionPlan) => void;
 }
 
-const InterventionCard: React.FC<InterventionCardProps> = ({ plan }) => {
+const InterventionCard: React.FC<InterventionCardProps> = ({ plan, onOpenModal }) => {
     
     const getPriorityStyles = (priority: InterventionPriority) => {
         switch (priority) {
@@ -21,7 +22,7 @@ const InterventionCard: React.FC<InterventionCardProps> = ({ plan }) => {
         : 0;
 
     return (
-        <div className="bg-white rounded-lg shadow-sm p-4 border border-slate-200 hover:shadow-md hover:border-indigo-300 transition-all cursor-pointer">
+        <div onClick={() => onOpenModal(plan)} className="bg-white rounded-lg shadow-sm p-4 border border-slate-200 hover:shadow-md hover:border-indigo-300 transition-all cursor-pointer">
             <div className="flex justify-between items-start">
                 <h4 className="font-bold text-sm text-slate-800 pr-2">{plan.title}</h4>
                 <span className={`px-2 py-0.5 text-xs font-bold rounded-full whitespace-nowrap ${getPriorityStyles(plan.priority)}`}>

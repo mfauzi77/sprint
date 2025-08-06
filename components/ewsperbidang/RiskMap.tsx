@@ -33,18 +33,18 @@ const RiskMap: React.FC<RiskMapProps> = ({ regions }) => {
     
     return (
         <div>
-             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-2">Peta Sebaran Risiko Geografis</h3>
-             <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Arahkan kursor ke wilayah untuk melihat skor risiko.</p>
-            <div className="relative w-full h-96 bg-slate-100 dark:bg-slate-700 rounded-lg overflow-hidden border dark:border-slate-600">
+             <h3 className="text-lg font-bold text-slate-800 mb-2">Peta Sebaran Risiko Geografis</h3>
+             <p className="text-sm text-slate-500 mb-4">Arahkan kursor ke wilayah untuk melihat skor risiko.</p>
+            <div className="relative w-full h-96 bg-slate-100 rounded-lg overflow-hidden border">
                 {mapLayout.map(item => {
                     const regionData = findRegion(item.name);
                     const score = regionData ? regionData.riskScore : 0;
-                    const color = regionData ? getRiskColor(score) : 'bg-gray-400 dark:bg-gray-500';
+                    const color = regionData ? getRiskColor(score) : 'bg-gray-400';
 
                     return (
                         <div
                             key={item.name}
-                            className={`absolute ${color} transition-colors border-2 border-white dark:border-slate-700 rounded-md flex items-center justify-center text-white text-xs font-bold shadow-md`}
+                            className={`absolute ${color} transition-colors border-2 border-white rounded-md flex items-center justify-center text-white text-xs font-bold shadow-md`}
                             style={item.style}
                             title={`${item.name} - Skor Risiko: ${score}`}
                         >
@@ -53,7 +53,7 @@ const RiskMap: React.FC<RiskMapProps> = ({ regions }) => {
                     );
                 })}
             </div>
-            <div className="flex justify-end space-x-2 mt-2 text-xs text-slate-600 dark:text-slate-300">
+            <div className="flex justify-end space-x-2 mt-2 text-xs text-slate-600">
                 <div className="flex items-center"><span className="w-3 h-3 rounded-sm bg-emerald-500 mr-1"></span>Rendah</div>
                 <div className="flex items-center"><span className="w-3 h-3 rounded-sm bg-yellow-400 mr-1"></span>Sedang</div>
                 <div className="flex items-center"><span className="w-3 h-3 rounded-sm bg-orange-500 mr-1"></span>Tinggi</div>

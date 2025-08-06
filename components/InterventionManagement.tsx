@@ -54,7 +54,7 @@ const InterventionManagement: React.FC<InterventionManagementProps> = ({ plans, 
                                {plans
                                 .filter(plan => plan.status === status)
                                 .map(plan => (
-                                    <InterventionCard key={plan.id} plan={plan} />
+                                    <InterventionCard key={plan.id} plan={plan} onOpenModal={onOpenModal} />
                                 ))
                                }
                                {plans.filter(plan => plan.status === status).length === 0 && (

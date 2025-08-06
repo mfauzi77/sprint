@@ -4,9 +4,10 @@ import { ActiveAlertData, AlertLevel, View } from '../../types';
 interface NotificationDropdownProps {
     alerts: ActiveAlertData[];
     onNavigate: (view: View) => void;
+    onNavigateToRegion: (regionName: string) => void;
 }
 
-const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ alerts, onNavigate }) => {
+const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ alerts, onNavigate, onNavigateToRegion }) => {
 
     const getLevelDotColor = (level: AlertLevel): string => {
         switch (level) {
@@ -16,7 +17,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ alerts, onN
         }
     };
 
-    const handleNavigation = () => {
+    const handleAllAlertsNavigation = () => {
         // Navigate to the dashboard where all alerts are visible
         onNavigate(View.Dashboard);
     }
@@ -34,7 +35,11 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ alerts, onN
                 {displayedAlerts.length > 0 ? (
                     displayedAlerts.map(alert => (
                         <li key={alert.id}>
-                            <a href="#" onClick={(e) => { e.preventDefault(); handleNavigation(); }} className="flex items-start px-4 py-3 hover:bg-slate-50 transition-colors">
+                            <a 
+                                href="#" 
+                                onClick={(e) => { e.preventDefault(); onNavigateToRegion(alert.region); }} 
+                                className="flex items-start px-4 py-3 hover:bg-slate-50 transition-colors"
+                            >
                                 <span className={`flex-shrink-0 w-2.5 h-2.5 mt-1.5 rounded-full ${getLevelDotColor(alert.level)}`}></span>
                                 <div className="ml-3">
                                     <p className="text-sm font-semibold text-slate-800">{alert.title}</p>
@@ -53,7 +58,7 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({ alerts, onN
             <div className="p-2 border-t border-slate-200 bg-slate-50 rounded-b-lg">
                 <a 
                     href="#" 
-                    onClick={(e) => { e.preventDefault(); handleNavigation(); }} 
+                    onClick={(e) => { e.preventDefault(); handleAllAlertsNavigation(); }} 
                     className="block text-center text-sm font-semibold text-indigo-600 hover:text-indigo-800 py-2"
                 >
                     Lihat Semua Alert

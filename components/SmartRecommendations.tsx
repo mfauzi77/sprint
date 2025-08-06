@@ -114,17 +114,17 @@ Jawaban Anda harus:
 
     const TypingIndicator = () => (
         <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-slate-500 rounded-full animate-pulse [animation-delay:-0.3s] dark:bg-slate-400"></div>
-            <div className="w-2 h-2 bg-slate-500 rounded-full animate-pulse [animation-delay:-0.15s] dark:bg-slate-400"></div>
-            <div className="w-2 h-2 bg-slate-500 rounded-full animate-pulse dark:bg-slate-400"></div>
+            <div className="w-2 h-2 bg-slate-500 rounded-full animate-pulse [animation-delay:-0.3s]"></div>
+            <div className="w-2 h-2 bg-slate-500 rounded-full animate-pulse [animation-delay:-0.15s]"></div>
+            <div className="w-2 h-2 bg-slate-500 rounded-full animate-pulse"></div>
         </div>
     );
     
     return (
-        <div className="flex flex-col h-full bg-white rounded-lg shadow-sm dark:bg-slate-800">
-            <div className="flex-shrink-0 p-4 border-b border-slate-200 flex items-center dark:border-slate-700">
+        <div className="flex flex-col h-full bg-white rounded-lg shadow-sm">
+            <div className="flex-shrink-0 p-4 border-b border-slate-200 flex items-center">
                 <LightBulbIcon className="w-6 h-6 mr-3 text-yellow-500"/>
-                <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">Diskusi Rekomendasi SPRINT</h2>
+                <h2 className="text-xl font-bold text-slate-800">Diskusi Rekomendasi SPRINT</h2>
             </div>
 
             <div ref={chatContainerRef} className="flex-grow p-6 overflow-y-auto space-y-6">
@@ -135,9 +135,9 @@ Jawaban Anda harus:
                                 <SparklesIcon className="w-5 h-5" />
                             </div>
                         )}
-                        <div className={`w-full max-w-xl p-4 rounded-xl ${msg.role === 'user' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-200'}`}>
+                        <div className={`w-full max-w-xl p-4 rounded-xl ${msg.role === 'user' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-800'}`}>
                              {msg.content ? (
-                                <div className="prose prose-sm max-w-none prose-p:my-2 prose-li:my-1 dark:text-slate-200" dangerouslySetInnerHTML={{ __html: msg.content.replace(/\n/g, '<br />') }} />
+                                <div className="prose prose-sm max-w-none prose-p:my-2 prose-li:my-1" dangerouslySetInnerHTML={{ __html: msg.content.replace(/\n/g, '<br />') }} />
                              ) : (
                                 <TypingIndicator />
                              )}
@@ -149,10 +149,10 @@ Jawaban Anda harus:
 
             {chatHistory.length <= 1 && (
                 <div className="p-6 pt-0">
-                    <p className="text-sm font-semibold text-slate-500 mb-2 dark:text-slate-400">atau coba salah satu dari ini:</p>
+                    <p className="text-sm font-semibold text-slate-500 mb-2">atau coba salah satu dari ini:</p>
                     <div className="flex flex-wrap gap-2">
                         {starterPrompts.map(prompt => (
-                             <button key={prompt} onClick={() => handleSendMessage(prompt)} className="px-3 py-1.5 bg-slate-100 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-200 transition-colors dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600">
+                             <button key={prompt} onClick={() => handleSendMessage(prompt)} className="px-3 py-1.5 bg-slate-100 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-200 transition-colors">
                                 {prompt}
                              </button>
                         ))}
@@ -160,7 +160,7 @@ Jawaban Anda harus:
                 </div>
             )}
 
-            <div className="flex-shrink-0 p-4 border-t border-slate-200 bg-slate-50 dark:bg-slate-800 dark:border-slate-700">
+            <div className="flex-shrink-0 p-4 border-t border-slate-200 bg-slate-50">
                 <form onSubmit={handleFormSubmit} className="relative">
                     <textarea
                         value={userInput}
@@ -174,7 +174,7 @@ Jawaban Anda harus:
                         disabled={isLoading}
                         rows={1}
                         placeholder="Ketik pesan Anda di sini atau ajukan pertanyaan..."
-                        className="w-full p-3 pr-12 text-sm text-slate-800 border-slate-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 resize-none dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200 dark:placeholder-slate-400"
+                        className="w-full p-3 pr-12 text-sm text-slate-800 border-slate-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 resize-none"
                     />
                     <button
                         type="submit"

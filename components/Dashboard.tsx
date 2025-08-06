@@ -83,7 +83,7 @@ const Dashboard: React.FC<DashboardProps> = ({ handleOpenInterventionModal }) =>
 
 
     const DomainSelector: React.FC = () => (
-        <div className="bg-white p-2 rounded-lg shadow-sm flex items-center justify-start space-x-1 overflow-x-auto dark:bg-slate-800">
+        <div className="bg-white p-2 rounded-lg shadow-sm flex items-center justify-start space-x-1 overflow-x-auto">
             {DOMAIN_FILTER_ITEMS.map(item => {
                 const isActive = activeDomain === item.id;
                 return (
@@ -93,7 +93,7 @@ const Dashboard: React.FC<DashboardProps> = ({ handleOpenInterventionModal }) =>
                         className={`flex items-center px-3 py-2 sm:px-4 text-sm font-medium rounded-md transition-colors duration-200 whitespace-nowrap ${
                             isActive
                                 ? 'bg-indigo-600 text-white shadow'
-                                : 'text-gray-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                                : 'text-gray-600 hover:bg-slate-200'
                         }`}
                     >
                         <span className="mr-2">{item.icon}</span>

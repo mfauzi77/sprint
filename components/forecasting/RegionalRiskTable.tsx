@@ -4,9 +4,10 @@ import { TrendingUpIcon, TrendingDownIcon, ChevronUpIcon, ChevronDownIcon, Switc
 
 interface RegionalRiskTableProps {
     data: RegionalForecastData[];
+    onCreatePlan: (forecast: RegionalForecastData) => void;
 }
 
-const RegionalRiskTable: React.FC<RegionalRiskTableProps> = ({ data }) => {
+const RegionalRiskTable: React.FC<RegionalRiskTableProps> = ({ data, onCreatePlan }) => {
     const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: SortDirection } | null>({ key: 'change', direction: 'descending' });
 
     const sortedData = useMemo(() => {
@@ -98,7 +99,11 @@ const RegionalRiskTable: React.FC<RegionalRiskTableProps> = ({ data }) => {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-center">
-                                    <button className="text-indigo-600 hover:text-indigo-800 font-semibold" title="Buat Rencana Intervensi Proaktif">
+                                    <button 
+                                        onClick={() => onCreatePlan(item)}
+                                        className="text-indigo-600 hover:text-indigo-800 font-semibold" 
+                                        title="Buat Rencana Intervensi Proaktif"
+                                    >
                                         <DocumentPlusIcon />
                                     </button>
                                 </td>

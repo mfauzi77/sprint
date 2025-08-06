@@ -7,10 +7,14 @@ import RegionalRiskTable from './forecasting/RegionalRiskTable';
 import TopMovers from './forecasting/TopMovers';
 import ForecastingInsight from './forecasting/ForecastingInsight';
 import { ArrowPathIcon } from './icons/Icons';
-import { Domain, ForecastDataPoint } from '../types';
+import { Domain, ForecastDataPoint, InterventionPlan, InterventionPriority, InterventionStatus, RegionalForecastData } from '../types';
 
 
-const Forecasting: React.FC = () => {
+interface ForecastingProps {
+    handleOpenInterventionModal: (initialData?: Partial<InterventionPlan>, navigate?: boolean) => void;
+}
+
+const Forecasting: React.FC<ForecastingProps> = ({ handleOpenInterventionModal }) => {
     const [activeDomain, setActiveDomain] = React.useState<Domain>('Kesehatan');
     const [activeHorizon, setActiveHorizon] = React.useState('3 Bulan');
 
@@ -129,6 +133,18 @@ const Forecasting: React.FC = () => {
         fetchInsight();
     };
 
+    const handleCreatePlanFromForecast = (forecast: RegionalForecastData) => {
+        const initialData: Partial<InterventionPlan> = {
+            title: `Rencana Intervensi Proaktif untuk ${forecast.domain} di ${forecast.region}`,
+            description: `Berdasarkan prediksi peningkatan risiko di bidang ${forecast.domain} (skor prediksi: ${forecast.predictedRisk}).`,
+            region: forecast.region,
+            domain: forecast.domain as Domain,
+            priority: forecast.predictedRiskLevel === 'Kritis' ? InterventionPriority.High : InterventionPriority.Medium,
+            status: InterventionStatus.Planning
+        };
+        handleOpenInterventionModal(initialData, true);
+    };
+
     return (
         <div className="space-y-6">
             <div className="bg-white p-4 rounded-lg shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center">
@@ -179,7 +195,7 @@ const Forecasting: React.FC = () => {
             />
 
             <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm">
-                <RegionalRiskTable data={processedForecastData} />
+                <RegionalRiskTable data={processedForecastData} onCreatePlan={handleCreatePlanFromForecast} />
             </div>
         </div>
     );

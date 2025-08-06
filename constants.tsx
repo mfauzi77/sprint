@@ -21,7 +21,7 @@ export const SUB_NAVIGATION_ITEMS: NavItem[] = [
 ];
 
 export const PERSONAL_NAVIGATION_ITEMS: NavItem[] = [
-    { id: View.ParentDashboard, label: 'Dashboard Orang Tua', icon: <UserCircleIcon /> },
+    // { id: View.ParentDashboard, label: 'Dashboard Orang Tua', icon: <UserCircleIcon /> },
 ];
 
 export const DOMAIN_FILTER_ITEMS = [
